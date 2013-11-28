@@ -1,6 +1,17 @@
+# compiled java files
 *.class
 
-# Package Files #
+.settings/org.eclipse.core.resources.prefs
+.DS_STORE
+
+# Package Files
 *.jar
 *.war
 *.ear
+
+# Play recommended gitignore
+logs
+project/project
+project/target
+target
+tmp

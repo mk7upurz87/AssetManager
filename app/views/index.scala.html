@@ -1,0 +1,40 @@
+@()
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("MedTech Asset Manager") {
+	<div class="container">
+		<div style="margin: 100px auto 0; width: 980px;">
+	    	<img src="images/logo.png" style="margin: 0 45px 0 0;display: inline-block;" />
+	        <div style="display: inline-block; width: 500px;">
+	       
+	        <p><strong>MedTech Supply</strong> is a reseller of Used and New Surplus Medical Equipment. </p>
+	  		<p>MedTech works with Healthcare facilities nationwide creating Turn Key Solutions for the following services</p>
+			<ul>
+		  		<li>Web Based Equipment Management</li>
+		  		<li>On Site Storage </li>
+		  		<li>Remarketing Equipment </li>
+	  		</ul>
+	  		<hr />
+	    	<span class="contact-info">
+	    		<b>Contact Us</b>
+				<br>
+				MedTech Supply, LLC
+				<br>
+				235 Middle Rd
+				<br>
+				Henrietta NY 14467 <br>
+				Phone: 585-334-2976
+				<br>
+				email: <a href='mailto:sales${"&#64"}medtechsupply.com'>sales${"&#64"}medtechsupply.com</a>
+			</span>
+	    </div>
+
+		<h1 class="center">Asset Manager</h1>
+
+		<h3><a href="/users">Users</a></h3>
+		<h3><a href="/orders">Orders</a></h3>
+		<h3><a href="/parts">Parts</a></h3>
+	</div>
+}
