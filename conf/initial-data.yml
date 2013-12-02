@@ -1,0 +1,83 @@
+
+# Parts
+
+parts:
+
+    - !!models.Part
+        id:             1
+        label:          Part1
+        brand:          Brand1
+        quantity:       3
+        description:    null
+
+    - !!models.Part
+        id:             2
+        label:          Part2
+        brand:          Brand1
+        quantity:       1
+        description:    null
+
+    - !!models.Part
+        id:             3
+        label:          Part3
+        brand:          Brand2
+        quantity:       3
+        description:    null
+
+    - !!models.Part
+        id:             4
+        label:          Part4
+        brand:          Brand2
+        quantity:       1
+        description:    null
+
+    - !!models.Part
+        id:             5
+        label:          Part5
+        brand:          Brand2
+        quantity:       1
+        description:    null
+
+    - !!models.Part
+        id:             6
+        label:          Part3
+        brand:          Brand2
+        quantity:       1
+        description:    null
+
+    - !!models.Part
+        id:             7
+        label:          Part1
+        brand:          Brand1
+        quantity:       1
+        description:    null
+
+    - !!models.Part
+        id:             8
+        label:          Part2
+        brand:          Brand1
+        quantity:       1
+        description:    null
+
+# Bids
+
+
+
+# Users
+
+users:
+
+    - !!models.User
+        id:             1
+        password:       secret
+        username:       admin
+        name:           First1 Last1
+        companyName:    mockCompany1
+
+
+    - !!models.User
+        id:             2
+        password:       secret
+        username:       admin2
+        name:           First2 Last2
+        companyName:    mockCompany2

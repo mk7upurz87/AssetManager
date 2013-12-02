@@ -1,46 +1,129 @@
 /*************************
 ****  Main Styles *******/
 
+.body {
+}
+.company {
+	text-align: left;
+	margin: 20px auto 0 auto;
+}
+.logo {
+	height: 110px;
+	width: 350px;
+	margin-bottom: 20px;
+}
+.left-frame {
+	top: -100px;
+	position: relative;
+	display: inline-block;
+	margin: 0 20px 0 45px;
+}
+.right-frame {
+	display: inline-block;
+	width: 360px;
+}
+@media(max-width: 973px) {
+	.left-frame {
+		top: -30px;
+	}
+	.right-frame {
+		margin: 20px 0 0 45px;
+	}
+}
 .center {
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: auto 0;
 }
 h1.center {
 	text-align: center;
 }
-.parts-list {
-	width: 100%;
+.asset-manager-container table .delete {
+	width: 103px;
+	text-align: center;
 }
-.part-create-form {
-	padding-left: 20px;
-	width: 100%;
+.asset-manager-container table .id {
+	width: 70px;
 }
-.input>input {
-	width: 165px;
+.asset-manager-container table .close {
+	display: inline;
+	float: none;
+	width: 85px;
+}
+.container table {
+	margin-bottom: 20px;
+}
+.container table .company {
+	width: 150px;
+}
+.container table .part-name {
+	width: 150px;
+}
+.container table .brand {
+	width: 150px;
+}
+.user-create-form .help-block {
+	display: none;
+}
+.container {
+	margin-left: 20px;
+}
+.bid-amount {
+	position: relative;
+	margin: 20px 0;
+}
+.bid-amount input {
+	margin-top: 5px;
+	width: 75px;
+}
+.bid-amount .dollars {
+	position: absolute;
+	left: 118px;
+	top: 31px;
+}
+.part-select {
+	margin: 20px 0;
+}
+.part-select select {
+	margin-top: 5px;
+}
+.input > input {
+	width: 170px;
 	float: left;
+}
+#description {
+	width: 350px;
 }
 
 /*************************
 ** Bootstrap Overrides **/
 
 .help-block {
-	position: relative;
-	top: -25px;
-	left: 7px;
-	font-size: 0.8em;
+		position: relative;
+		top: -25px;
+		left: 7px;
+		font-size: 0.8em;
+}
+.container .help-block {
+	display: none;
 }
 button.btn.btn-primary {
 	position: relative;
-	float: right;
-	top: 5px;
-	right: 20px;
+	top: 15px;
 }
 
 /*************************
 ***** Pure Overrides ****/
 
-/*.quantity-cell, .pure-button-error.close {
-	display: block;
-	text-align: center;
-	width: 100%;
-}*/
+.bid-create-form .pure-button-error {
+	margin-top: 10px;
+}
+
+.pure-button-error {
+	margin-top: 23px;
+}
+.pure-button-error.close{
+	margin-top: 0px;
+	border: none;
+}
+.container h2 {
+	margin: 0px;	
+}

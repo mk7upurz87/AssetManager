@@ -1,4 +1,4 @@
-@(user: User)
+@(bids: List[Bid], bidForm: Form[Bid], users: List[User])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -29,37 +29,39 @@
         }
     </div>
 </nav>
+@if(("admin").equals(session.get("username"))) {
 <div class="container">
-    <h2 class="center">Current Bids For: @User.getByUsername(session().get("username")).name</h2>    
-    <table class="pure-table pure-table-horizontal users-list">
+    <table class="pure-table pure-table-horizontal orders-list">
         <thead>
             <tr>
-                <td>Name</td>
-                <td>Brand</td>
-                <td>Quantity</td>
-                <td>Description</td>
-                @if(("admin").equals(session.get("username"))) {
+                <td>ID</td>
+                <td class="part-name">Part</td>
+                <td class="company">Company</td>
+                <td>Contact Person</td>
                 <td>Delete</td>
-                }
             </tr>
         </thead>
         <tbody>
-        @for(bid <- user.bids) {
-            <tr class="user-row">
-                <td>@bid.part.label</td>
-                <td>@bid.part.brand</td>
-                <td>@bid.part.quantity</td>
-                <td>@bid.part.description</td>
-                @if(("admin").equals(session.get("username"))) {
+        @if(bids.length == 0){
+            <tr><td /><td /><td /><td /> <td /></tr>
+        }
+        @for(bid <- bids) {
+            <tr class="order-row">
+                <td class="id">@bid.id</td>
+                <td class="part-name">@bid.part.label</td>
+                <td class="company">@bid.user.companyName</td>
+                <td>@bid.user.name</td>
                 <td class="delete">
-                    @form(routes.Bids.deleteBid(bid.id)){
-                        <input class="pure-button-error close"  type="submit" value="X" />
-                    }
-                </td>
+                @form(routes.Bids.deleteBid(bid.id)){
+                    <input class="pure-button-error close"  type="submit" value="X">
                 }
+                </td>
             </tr>
         }
         </tbody>
     </table>
-</div>
-}
+    @form(routes.Bids.newBid()) {
+        <input class="pure-button-error" type="submit" value="New Bid" />
+    }
+</div>    
+}}

@@ -4,6 +4,12 @@
 
 # Home page
 GET     /                       controllers.Application.index()
+GET		/app 					controllers.Application.app_index()
+
+# Login
+GET		/login					controllers.Login.login()
+GET		/logout					controllers.Login.logout()
+POST	/login					controllers.Login.authenticate()
 
 # Parts
 GET     /parts                  controllers.Parts.index()
@@ -17,10 +23,10 @@ POST    /users                  controllers.Users.newUser()
 POST    /users/:id/delete       controllers.Users.deleteUser(id: Long)
 
 # Orders
-GET     /orders                 controllers.PurchaseOrders.index()
-GET     /orders/new             controllers.PurchaseOrders.newOrder()
-POST    /orders                 controllers.PurchaseOrders.createOrder()
-POST    /orders/:id/delete      controllers.PurchaseOrders.deleteOrder(id: Long)
+GET     /bids                   controllers.Bids.index()
+GET     /bids/new               controllers.Bids.newBid()
+POST    /bids/create            controllers.Bids.createBid()
+POST    /bids/:id/delete        controllers.Bids.deleteBid(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file           controllers.Assets.at(path="/public", file)

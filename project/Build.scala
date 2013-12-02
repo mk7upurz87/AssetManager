@@ -3,7 +3,7 @@ import Keys._
 
 object ApplicationBuild extends Build {
 
-    val appName         = "Inventory Control"
+    val appName         = "Asset Manager"
     val appVersion      = "1.0"
 
     val appDependencies = Seq(

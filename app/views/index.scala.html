@@ -1,14 +1,41 @@
-@()
+@(loginForm: Form[Login])
 
 @import helper._
 @import helper.twitterBootstrap._
 
-@main("MedTech Asset Manager") {
-	<div class="container">
-		<div style="margin: 100px auto 0; width: 980px;">
-	    	<img src="images/logo.png" style="margin: 0 45px 0 0;display: inline-block;" />
-	        <div style="display: inline-block; width: 500px;">
-	       
+@main("MedTech - Info") {
+	<div class="company">
+		<div class="left-frame">
+			<img class="logo" src="@routes.Assets.at("/images/logo.png")"/>
+			<div class="asset-manager-container">
+				<div>
+				@if(session.get("username") == null) {
+				    @form(routes.Login.authenticate()) {
+				        <div class="input-fields">
+				            @inputText(loginForm("username"), args = '_label -> " ", 'placeholder -> "Username", '_showConstraints -> false)
+
+				            @inputPassword(loginForm("password"), args = '_label -> " ", 'placeholder -> "Password", '_showConstraints -> false)
+				        </div>
+				        <button class="pure-button-error" type="submit" value="Login">Login</button>
+						@if(loginForm.hasGlobalErrors) {
+						    <p class="error">
+						        @loginForm.globalError.message
+						    </p>
+						}
+				    }
+				} else {
+				    @form(routes.Login.logout()) {
+						<button class="pure-button-error" type="submit" value="Logout">Logout</button>
+					}	
+					@form(routes.Application.app_index()) {
+						<button class="pure-button-error" type="submit" value="Asset Manager">Asset Manager</button>			
+					}
+				}
+				</div>
+			</div>
+		</div>
+        <div class="right-frame">
+       
 	        <p><strong>MedTech Supply</strong> is a reseller of Used and New Surplus Medical Equipment. </p>
 	  		<p>MedTech works with Healthcare facilities nationwide creating Turn Key Solutions for the following services</p>
 			<ul>
@@ -27,14 +54,17 @@
 				Henrietta NY 14467 <br>
 				Phone: 585-334-2976
 				<br>
-				email: <a href='mailto:sales${"&#64"}medtechsupply.com'>sales${"&#64"}medtechsupply.com</a>
+				email: <a href='mailto:sales&#64medtechsupply.com'>sales&#64medtechsupply.com</a>
 			</span>
-	    </div>
-
-		<h1 class="center">Asset Manager</h1>
-
-		<h3><a href="/users">Users</a></h3>
-		<h3><a href="/orders">Orders</a></h3>
-		<h3><a href="/parts">Parts</a></h3>
-	</div>
+		</div>
+    </div>
+    <div class="bug-report" style="border: 1px dotted #000; font-size: .8em; margin: 100px 30px; padding-left: 20px">
+    	<h3>Release 1 Known bugs:</h3>
+    	<ul>
+	    	<li>click delete part from parts view, sql error</li>
+	    	<li>create part with file upload, error required field</li>
+	    	<li>click part from parts view and bid select box does not preselect corresponding part</li>
+	    	<li>no email notification on new bid</li>
+    	</ul>
+    </div>
 }

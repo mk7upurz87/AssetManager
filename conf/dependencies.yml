@@ -1,0 +1,15 @@
+# Application dependencies
+
+# Notes:
+# 	play is an alias for play -> play $currentVersion
+#	play -> secure is an alias for play -> secure $currentVersion
+
+require:
+	- play
+    - play -> secure
+    - play -> recaptcha 1.02
+
+repositories:
+	- My modules:
+		type:		local
+		artifact:	${application.path}/../[module]

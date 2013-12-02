@@ -1,4 +1,4 @@
-name := "InventoryControl"
+name := "Asset Manager"
 
 version := "1.0-SNAPSHOT"
 
