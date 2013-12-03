@@ -17,7 +17,7 @@
             @select(bidForm("part.id"), parts.map { part => part.id.toString -> part.label }, args = '_label -> "Select a part to bid on")
         </div>   
         <button class="pure-button-error" type="submit" value="Submit">Submit</button>
-        <button class="pure-button-error" type="submit" value="Cancel" action="@routes.Bids.index()">Cancel</button>
+        <button class="pure-button-error" type="submit" value="Cancel" action="@routes.Parts.index()">Cancel</button>
     }
     </div>
 </div>    

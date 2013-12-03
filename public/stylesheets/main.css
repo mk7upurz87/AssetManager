@@ -2,10 +2,11 @@
 ****  Main Styles *******/
 
 .body {
+	padding-top: 50px;
 }
 .company {
 	text-align: left;
-	margin: 20px auto 0 auto;
+	margin: 50px auto 0 auto;
 }
 .logo {
 	height: 110px;
@@ -40,6 +41,9 @@ h1.center {
 	width: 103px;
 	text-align: center;
 }
+.container h2.user-view-title {
+	margin-bottom: 20px;
+}
 .asset-manager-container table .id {
 	width: 70px;
 }
@@ -50,6 +54,9 @@ h1.center {
 }
 .container table {
 	margin-bottom: 20px;
+}
+.container label {
+	font-weight: 400;
 }
 .container table .company {
 	width: 150px;

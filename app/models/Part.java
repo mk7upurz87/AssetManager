@@ -22,7 +22,6 @@ public class Part extends Model {
     @Min(value=1)
     public Long quantity;
     
-    @Required
     public String description;
 
     public static Finder<Long, Part> find = new Finder(Long.class, Part.class);

@@ -37,6 +37,7 @@
                 <td class="part-name">Name</td>
                 <td class="brand">Brand</td>
                 <td>Quantity</td>
+                <td>Description</td>
                 @if(("admin").equals(session().get("username"))) {
                 <td class="delete">Delete</td>
                 }
@@ -45,9 +46,10 @@
         <tbody>
         @for(part <- parts) {
             <tr class="part-row">
-                <td class="part-name"><a href="/bids/new/@part.id">@part.label</a></td>
+                <td class="part-name"><a href="/bids/new">@part.label</a></td>
                 <td class="brand">@part.brand</td>
                 <td class="">@part.quantity</td>
+                <td class="description">@part.description</td>
                 @if(("admin").equals(session().get("username"))) {
                 <td class="delete">
                     @form(routes.Parts.deletePart(part.id)){

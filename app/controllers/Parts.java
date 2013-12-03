@@ -22,6 +22,7 @@ public class Parts extends Controller {
     public static Result newPart() {
         Form<Part> filledForm = partForm.bindFromRequest();
         MultipartFormData body = request().body().asMultipartFormData();
+        Logger.debug(filledForm.toString());
         String fileName = null;
         String contentType = null;
         FilePart description = body.getFile("description");

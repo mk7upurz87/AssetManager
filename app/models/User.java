@@ -13,16 +13,17 @@ public class User extends Model {
     @Id
     public Long id;
 
-    @Required(message="You must enter a password.")
-    @MinLength(message="Password must be at least 8 characters.", value=8)
+    @Required
+    @MinLength(value=8)
     public String password;
 
-    @Required(message="You must name a new user.")
+    @Required
     public String username;
 
-    @Required(message="Please enter a first and last name.")
+    @Required
     public String name;
 
+    @Required
     public String companyName;
 
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
