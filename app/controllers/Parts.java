@@ -1,12 +1,16 @@
 package controllers;
 
-import java.io.*;
-
 import play.*;
 import play.mvc.*;
 import play.data.*;
+import play.libs.*;
 import play.mvc.Http.*;
 import play.mvc.Http.MultipartFormData.*;
+
+import java.io.*;
+import java.util.*;
+
+// import org.apache.commons.mail.*;
 
 import views.html.*;
 import models.*;
@@ -58,13 +62,30 @@ public class Parts extends Controller {
                 views.html.parts_index.render(Part.all(), filledForm)
             );
         } else {
-            Part.create(filledForm.get(), fileName);
+            Part part = filledForm.get();
+
+            // SimpleEmail email = new SimpleEmail();
+            // email.setFrom(part.creator + "@AssetManager");
+            // email.addTo(app.configuration().getString("ownerEmail"));
+            // email.addTo(part.email);
+            // email.setSubject("Part Added: " + part.vendor + " - " + part.label);
+            // email.setMsg("A Part has been added to the Asset Manager:\n\n"
+            //     + part.toString());
+            // Mail.send(email);
+
+            Part.create(part, fileName);
             return redirect(routes.Parts.index());
         }
     }
 
     public static Result deletePart(long id) {
         Part.delete(id);
+        List<Bid> bids = Bid.all();
+        for(Bid bid : bids) {
+            if(bid.part.id == id) {
+                bid.delete();
+            }
+        }
         return redirect(routes.Parts.index());
     }
 }

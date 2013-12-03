@@ -2,82 +2,206 @@
 # Parts
 
 parts:
-
     - !!models.Part
         id:             1
-        label:          Part1
-        brand:          Brand1
+        creator:        John Smith
+        division:       2nd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          MRI
+        vendor:         Block Image
         quantity:       3
-        description:    null
+        description:    part1.txt
 
     - !!models.Part
         id:             2
-        label:          Part2
-        brand:          Brand1
+        creator:        Tom Adams
+        division:       Bravo - 4th
+        email:          mk7upurz87@hotmail.com
+        phone:          098-123-4567
+        label:          Orthoscope
+        vendor:         New Choice
         quantity:       1
-        description:    null
+        description:    part2.txt
 
     - !!models.Part
         id:             3
-        label:          Part3
-        brand:          Brand2
-        quantity:       3
-        description:    null
+        creator:        Stephen Cray
+        division:       3rd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          Microscope
+        vendor:         Nikon
+        quantity:       1
+        description:    part3.txt
 
     - !!models.Part
         id:             4
-        label:          Part4
-        brand:          Brand2
-        quantity:       1
-        description:    null
+        creator:        Corey Donovan
+        division:       Wing 57
+        email:          mk7upurz87@hotmail.com
+        phone:          098-123-4567
+        label:          Sterilizer Machine
+        vendor:         Spa
+        quantity:       2
+        description:    part4.txt
 
     - !!models.Part
         id:             5
-        label:          Part5
-        brand:          Brand2
+        creator:        John Smith
+        division:       2nd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          Orthoscope
+        vendor:         New Choice
         quantity:       1
-        description:    null
+        description:    part5.txt
 
     - !!models.Part
         id:             6
-        label:          Part3
-        brand:          Brand2
-        quantity:       1
-        description:    null
+        creator:        John Smith
+        division:       2nd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          MRI
+        vendor:         Block Image
+        quantity:       3
+        description:    part1.txt
 
     - !!models.Part
         id:             7
-        label:          Part1
-        brand:          Brand1
+        creator:        Tom Adams
+        division:       Bravo - 4th
+        email:          mk7upurz87@hotmail.com
+        phone:          098-123-4567
+        label:          Orthoscope
+        vendor:         New Choice
         quantity:       1
-        description:    null
+        description:    part2.txt
 
     - !!models.Part
         id:             8
-        label:          Part2
-        brand:          Brand1
+        creator:        Stephen Cray
+        division:       3rd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          Microscope
+        vendor:         Nikon
         quantity:       1
-        description:    null
+        description:    part3.txt
+
+    - !!models.Part
+        id:             9
+        creator:        Corey Donovan
+        division:       Wing 57
+        email:          mk7upurz87@hotmail.com
+        phone:          098-123-4567
+        label:          Sterilizer Machine
+        vendor:         Spa
+        quantity:       2
+        description:    part4.txt
+
+    - !!models.Part
+        id:             10
+        creator:        John Smith
+        division:       2nd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          Orthoscope
+        vendor:         New Choice
+        quantity:       1
+        description:    part5.txt
+
+    - !!models.Part
+        id:             11
+        creator:        John Smith
+        division:       2nd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          MRI
+        vendor:         Block Image
+        quantity:       3
+        description:    part1.txt
+
+    - !!models.Part
+        id:             12
+        creator:        Tom Adams
+        division:       Bravo - 4th
+        email:          mk7upurz87@hotmail.com
+        phone:          098-123-4567
+        label:          Orthoscope
+        vendor:         New Choice
+        quantity:       1
+        description:    part2.txt
+
+    - !!models.Part
+        id:             13
+        creator:        Stephen Cray
+        division:       3rd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          Microscope
+        vendor:         Nikon
+        quantity:       1
+        description:    part3.txt
+
+    - !!models.Part
+        id:             14
+        creator:        Corey Donovan
+        division:       Wing 57
+        email:          mk7upurz87@hotmail.com
+        phone:          098-123-4567
+        label:          Sterilizer Machine
+        vendor:         Spa
+        quantity:       2
+        description:    part4.txt
+
+    - !!models.Part
+        id:             15
+        creator:        John Smith
+        division:       2nd
+        email:          mk7upurz87@yahoo.com
+        phone:          123-456-7890
+        label:          Orthoscope
+        vendor:         New Choice
+        quantity:       1
+        description:    part5.txt
 
 # Bids
 
-
+bids:
 
 # Users
 
 users:
-
     - !!models.User
         id:             1
-        password:       secret
-        username:       admin
-        name:           First1 Last1
-        companyName:    mockCompany1
-
+        password:       password
+        username:       user
+        name:           Some Guy
+        companyName:    Small Company
+        bids:           
 
     - !!models.User
         id:             2
-        password:       secret
-        username:       admin2
-        name:           First2 Last2
-        companyName:    mockCompany2
+        password:       password
+        username:       user2
+        name:           Some Gal
+        companyName:    Huge Company
+        bids:           
+
+    - !!models.User
+        id:             3
+        password:       password
+        username:       user3
+        name:           Soma Thagale
+        companyName:    Huge Company
+        bids:
+
+    - !!models.User
+        id:             4
+        password:       password
+        username:       admin
+        name:           Administrator
+        companyName:    MedTech
+        bids:           null

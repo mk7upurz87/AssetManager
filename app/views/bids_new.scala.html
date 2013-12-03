@@ -1,24 +1,46 @@
-@(parts: List[Part], bidForm: Form[Bid], users: List[User])
+@(bidForm: Form[Bid], users: List[User])
 
 @import helper._
 @import helper.twitterBootstrap._
 
 @main("New Bid") {
-<div class="container">
+<div class="main-container">
     <h1 class="center">Asset Manager</h1>
-    <h2>Place New Bid</h2>
-    <div class="bid-create-form">
-    @form(routes.Bids.createBid()) {
-        
-        <div class="bid-amount">
-            @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">MedTech</a>
         </div>
-        <div class="part-select">
-            @select(bidForm("part.id"), parts.map { part => part.id.toString -> part.label }, args = '_label -> "Select a part to bid on")
-        </div>   
-        <button class="pure-button-error" type="submit" value="Submit">Submit</button>
-        <button class="pure-button-error" type="submit" value="Cancel" action="@routes.Parts.index()">Cancel</button>
-    }
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/parts">Parts</a></li>
+            @if(("admin").equals(session.get("username"))) {
+                <li class="active"><a href="/bids">Bids</a></li>
+                <li><a href="/users">Users</a></li>
+            } else {
+                <li><a href="/users/@User.getByUsername(session().get("username")).id">My Bids</a></li>
+            }
+                <li class="nav-logout"><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>Place New Bid</h2>
+        <div class="bid-create-form">
+        @form(routes.Bids.createBid()) {
+            <div class="bid-amount">
+                @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
+            </div>
+                @textarea(bidForm("comment"), args = 'rows -> 3, 'cols -> 50, '_label -> "Comment (optional)", 'placeholder -> "Example: I would like only a qty of 2 of these.")
+            <button class="pure-button-error" type="submit" value="Submit">Submit</button>
+        }
+        </div>
     </div>
-</div>    
+</div>
 }

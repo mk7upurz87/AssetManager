@@ -24,7 +24,7 @@ POST    /users/:id/delete       controllers.Users.deleteUser(id: Long)
 
 # Orders
 GET     /bids                   controllers.Bids.index()
-GET     /bids/new               controllers.Bids.newBid()
+GET     /bids/:id/new          controllers.Bids.newBid(id: Long)
 POST    /bids/create            controllers.Bids.createBid()
 POST    /bids/:id/delete        controllers.Bids.deleteBid(id: Long)
 

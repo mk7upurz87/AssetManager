@@ -4,10 +4,10 @@
 @import helper.twitterBootstrap._
 
 @main("Asset Manager") {
+<div class="main-container">
 	<div class="asset-manager-container">
 		<h1 class="center">Asset Manager</h1>
 		<nav class="navbar navbar-default" role="navigation">
-			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span>
@@ -23,7 +23,7 @@
 		      		<li><a href="/bids">Bids</a></li>
 		      		<li><a href="/parts">Parts</a></li>
 		      	</ul>
-				@if(session.get("username") != null) {
+				@if(session().get("username") != null) {
 				    @form(routes.Login.logout()) {
 						<button class="pure-button-error" type="submit" value="Logout">Logout</button>
 					}
@@ -31,4 +31,5 @@
 		  	</div>
 		</nav>
 	</div>
+</div>
 }

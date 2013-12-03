@@ -5,16 +5,20 @@
 
 create table bid (
   id                        bigint not null,
-  user_id                   bigint,
-  part_id                   bigint,
   value                     integer,
+  user_id                   bigint,
+  comment                   varchar(255),
   constraint pk_bid primary key (id))
 ;
 
 create table part (
   id                        bigint not null,
+  creator                   varchar(255),
+  division                  varchar(255),
+  email                     varchar(255),
+  phone                     varchar(255),
   label                     varchar(255),
-  brand                     varchar(255),
+  vendor                    varchar(255),
   quantity                  bigint,
   description               varchar(255),
   constraint pk_part primary key (id))
@@ -37,8 +41,6 @@ create sequence user_seq;
 
 alter table bid add constraint fk_bid_user_1 foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_bid_user_1 on bid (user_id);
-alter table bid add constraint fk_bid_part_2 foreign key (part_id) references part (id) on delete restrict on update restrict;
-create index ix_bid_part_2 on bid (part_id);
 
 
 

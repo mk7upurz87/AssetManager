@@ -4,9 +4,10 @@ import play.*;
 import play.mvc.*;
 import play.data.*;
 
+import java.util.*;
+
 import views.html.*;
 import models.*;
-
 
 public class Users extends Controller {
 
@@ -35,6 +36,12 @@ public class Users extends Controller {
 
     public static Result deleteUser(long id) {
         User.delete(id);
+        List<Bid> bids = Bid.all();
+        for(Bid bid : bids) {
+            if(bid.user.id == id) {
+                bid.delete();
+            }
+        }
         return redirect(routes.Users.index());
     }
 }

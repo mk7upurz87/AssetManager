@@ -26,7 +26,7 @@ public class User extends Model {
     @Required
     public String companyName;
 
-    @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL)
     public List<Bid> bids;
 
     public static Finder<Long, User> find = new Finder(Long.class, User.class);

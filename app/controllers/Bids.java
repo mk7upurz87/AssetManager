@@ -12,13 +12,15 @@ import java.util.Map;
 public class Bids extends Controller {
 
     static Form<Bid> bidForm = Form.form(Bid.class);
+    static Long currPartId;
 
     public static Result index() {
         return ok(views.html.bids_index.render(Bid.all(), bidForm, User.all()));
     }
 
-    public static Result newBid() {
-        return ok(views.html.bids_new.render(Part.all(), bidForm, User.all()));
+    public static Result newBid(Long partId) {
+        currPartId = partId;
+        return ok(views.html.bids_new.render(bidForm, User.all()));
     }
 
     public static Result createBid() {
@@ -26,7 +28,7 @@ public class Bids extends Controller {
         if(filledForm.hasErrors()) {
             System.err.println(filledForm.toString());
             return badRequest(
-                views.html.bids_new.render(Part.all(), filledForm, User.all())
+                views.html.bids_new.render(filledForm, User.all())
             );
         } else {
             String username = session().get("username");
@@ -34,9 +36,9 @@ public class Bids extends Controller {
             
             Bid bid = filledForm.get();
             bid.user = user;
-            
+            bid.part = Part.getById(currPartId);
             Bid.create(bid);
-            
+
             if(!("admin").equals(username)) {
                 return redirect(routes.Users.viewUser(user.id));
             }

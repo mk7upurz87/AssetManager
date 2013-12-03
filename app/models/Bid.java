@@ -13,15 +13,15 @@ public class Bid extends Model {
     @Id
     public Long id;
 
+    @Required
+    public Integer value;
+
     @ManyToOne
     public User user;
 
-    @Required
-    @ManyToOne
     public Part part;
 
-    @Required
-    public Integer value;
+    public String comment;
 
     public static Finder<Long, Bid> find = new Finder(
         Long.class, Bid.class
@@ -32,7 +32,6 @@ public class Bid extends Model {
     }
 
     public static void create(Bid bid) {
-        bid.part = Part.find.byId(bid.part.id);      
         bid.save();
     }
 
