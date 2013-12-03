@@ -36,8 +36,11 @@ public class Bids extends Controller {
             
             Bid bid = filledForm.get();
             bid.user = user;
-            bid.part = Part.getById(currPartId);
+            bid.part = new Part(new Long(1),"John Smith","2nd","mk7upurz87@gmail.com",
+                "123-456-7890","MRI","Block Image",new Long(2),"part.txt");
             Bid.create(bid);
+
+            user.bids.add(bid);
 
             if(!("admin").equals(username)) {
                 return redirect(routes.Users.viewUser(user.id));
