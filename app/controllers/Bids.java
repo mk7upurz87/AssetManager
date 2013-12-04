@@ -19,16 +19,16 @@ public class Bids extends Controller {
     }
 
     public static Result newBid(Long partId) {
-        currPartId = partId;
-        return ok(views.html.bids_new.render(bidForm, User.all()));
+        Part part = Part.getById(partId);
+        return ok(views.html.part_detail.render(part, bidForm, User.all()));
     }
 
-    public static Result createBid() {
+    public static Result createBid(Long partId) {
         Form<Bid> filledForm = bidForm.bindFromRequest();
         if(filledForm.hasErrors()) {
             System.err.println(filledForm.toString());
             return badRequest(
-                views.html.bids_new.render(filledForm, User.all())
+                views.html.part_detail.render(null, filledForm, User.all())
             );
         } else {
             String username = session().get("username");
@@ -36,8 +36,7 @@ public class Bids extends Controller {
             
             Bid bid = filledForm.get();
             bid.user = user;
-            bid.part = new Part(new Long(1),"John Smith","2nd","mk7upurz87@gmail.com",
-                "123-456-7890","MRI","Block Image",new Long(2),"part.txt");
+            bid.part = Part.getById(partId);
             Bid.create(bid);
 
             user.bids.add(bid);

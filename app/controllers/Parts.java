@@ -63,6 +63,7 @@ public class Parts extends Controller {
             );
         } else {
             Part part = filledForm.get();
+            part.setDesc(fileName);
 
             // SimpleEmail email = new SimpleEmail();
             // email.setFrom(part.creator + "@AssetManager");
@@ -73,7 +74,7 @@ public class Parts extends Controller {
             //     + part.toString());
             // Mail.send(email);
 
-            Part.create(part, fileName);
+            Part.create(part);
             return redirect(routes.Parts.index());
         }
     }

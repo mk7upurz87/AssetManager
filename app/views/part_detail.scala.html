@@ -1,4 +1,4 @@
-@(bidForm: Form[Bid], users: List[User])
+@(part: Part, bidForm: Form[Bid], users: List[User])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -31,16 +31,50 @@
         </div>
     </nav>
     <div class="container">
+        @if(part != null) {
+            <div class="part-info-section">
+                <h2>@part.label</h2>
+                <div class="part-desc">
+                    <p><b>Description:</b> @part.description</p>
+                </div>
+                <div class="part-vendor">
+                    <p><b>Vendor:</b> @part.vendor</p>
+                </div>
+                <div class="part-quantity">
+                    <p><b>Quantity:</b> @part.quantity</p>
+                </div>
+                <div class="part-bid-count">
+                    <p><b>Number of Bids:</b> @part.bids.size()</p>
+                </div>
+            </div>
+        }
+        <div class="part-detail-select">
+            <h2>Select part</h2>
+            <select class="part-select" id="part-select" name="part-select" multiple="false">
+            @for(p <- Part.all()){
+                <option value="@p.id" data-id="@p.id">@p.label</option>
+            }
+            </select>
+        </div>
+        <hr />
         <h2>Place New Bid</h2>
         <div class="bid-create-form">
-        @form(routes.Bids.createBid()) {
+        @form(routes.Bids.createBid(part.id)) {
             <div class="bid-amount">
                 @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
             </div>
                 @textarea(bidForm("comment"), args = 'rows -> 3, 'cols -> 50, '_label -> "Comment (optional)", 'placeholder -> "Example: I would like only a qty of 2 of these.")
-            <button class="pure-button-error" type="submit" value="Submit">Submit</button>
+            <button class="pure-button-error" type="submit" value="Place Bid">Place Bid</button>
         }
         </div>
     </div>
 </div>
+<script>
+    $(function() {
+        $('#part-select').on('change', function(event) {
+            event.preventDefault()
+            var id = $(this).val().attr('data-id')
+            window.location.href = "/bids/" + id + "/new"
+        })
+    })
 }

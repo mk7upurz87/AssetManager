@@ -8,9 +8,15 @@ import javax.persistence.*;
 import java.io.*;
 
 @Entity
+@Table(
+    name="PART", 
+    uniqueConstraints=
+        @UniqueConstraint(columnNames={"ID"})
+)
 public class Part extends Model {
   
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
     @Required
@@ -36,19 +42,13 @@ public class Part extends Model {
     
     public String description;
 
+    @OneToMany(mappedBy="part", cascade=CascadeType.REMOVE)
+    public List<Bid> bids;
+
     public static Finder<Long, Part> find = new Finder(Long.class, Part.class);
 
 
-    public Part(Long id, String cr, String div, String em, String ph,
-            String la, String ve, Long q, String desc) {
-        this.id = id;
-        this.creator = cr;
-        this.division = div;
-        this.email = em;
-        this.phone = ph;
-        this.label = la;
-        this.vendor = ve;
-        this.quantity = q;
+    public void setDesc(String desc) {
         this.description = desc;
     }
 
@@ -57,29 +57,33 @@ public class Part extends Model {
     }
 
     public static Part getById(Long id) {
-        return find.byId(id);
+        if(id != null) {
+            return Part.find.byId(id);
+        }
+        return null;
     }
 
-    public static void create(Part p, String desc) {
-        Part part = new Part(p.id, p.creator, p.division, p.email,
-            p.phone, p.label, p.vendor, p.quantity, desc);
-        part.save();
-
+    public static void create(Part p) {
+        if(getById(p.id) == null) {
+            p.save();
+        }
     }
 
     public static void delete(Long id) {
-        find.byId(id).delete();
+        Part part = Part.find.byId(id);
+        part.delete();
     }
 
     public String toString() {
-        return "Part ID:\t" + this.id
-            +"\nName:\t"    + this.label
-            +"\nVendor:\t"  + this.vendor
-            +"\nQuantity\t" + this.quantity
-            +"\nDescription\t" + this.description + "\n"
-            +"\nCreator:\t" + this.creator
-            +"\nDivision:\t"+ this.division
-            +"\nEmail:\t"   + this.email + " | "
-            +  "Phone:\t"   + this.phone;
+        description = description == null ? description : "no desctiption provided.";
+        return "Part ID:\t"    + id
+            +"\nName: "        + label
+            +"\nVendor: "      + vendor
+            +"\nQuantity: "    + quantity
+            +"\nDescription: " + description + "\n"
+            +"\nDivision: "    + division
+            +"\nCreator: "     + creator
+            +"\nEmail: "       + email + " | "
+            +  "Phone: "       + phone;
     }
 }

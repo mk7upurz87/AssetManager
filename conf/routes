@@ -24,8 +24,8 @@ POST    /users/:id/delete       controllers.Users.deleteUser(id: Long)
 
 # Orders
 GET     /bids                   controllers.Bids.index()
-GET     /bids/:id/new          controllers.Bids.newBid(id: Long)
-POST    /bids/create            controllers.Bids.createBid()
+GET     /bids/:id/new           controllers.Bids.newBid(id: Long)
+POST    /bids/create            controllers.Bids.createBid(id: Long)
 POST    /bids/:id/delete        controllers.Bids.deleteBid(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path

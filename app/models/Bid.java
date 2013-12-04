@@ -8,17 +8,25 @@ import play.data.validation.Constraints.*;
 import javax.persistence.*;
 
 @Entity
+@Table(
+    name="BID", 
+    uniqueConstraints=
+        @UniqueConstraint(columnNames={"ID"})
+)
 public class Bid extends Model {
   
+
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
     @Required
     public Integer value;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     public User user;
 
+    @ManyToOne(fetch=FetchType.LAZY)
     public Part part;
 
     public String comment;
@@ -32,10 +40,25 @@ public class Bid extends Model {
     }
 
     public static void create(Bid bid) {
+        if(bid.user == null || bid.user.id == null) {
+            bid.user = null;
+        } else {
+            bid.user = User.find.byId(bid.user.id);
+        }
+        if(bid.part == null || bid.part.id == null) {
+            bid.part = null;
+        } else {
+            bid.part = Part.find.byId(bid.part.id);
+        }
+        bid.part.bids.add(bid);
+        bid.user.bids.add(bid);
         bid.save();
     }
 
     public static void delete(Long id) {
-        find.ref(id).delete();
+        Bid bid = Bid.find.byId(id);
+        bid.user.bids.remove(bid);
+        bid.part.bids.remove(bid);
+        bid.delete();
     }
 }

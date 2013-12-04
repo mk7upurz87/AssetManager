@@ -67,6 +67,7 @@
             }
             </tbody>
         </table>
+        <p>-- Click the part for description --</p>
         @if(("admin").equals(session().get("username"))) {
             <h2>Add New Part</h2>
             <div class="part-create-form">
@@ -87,10 +88,10 @@
                 
                 @inputFile(partForm("description"), args = '_label -> "", '_showConstraints -> false)
                 
-                <button class="pure-button-error add-part" type="submit" value="add part" />Add Part</button>
+                <button class="pure-button-error add-part" type="submit" value="add part">Add Part</button>
             }
             </div>
         }
-    </div>    
+    </div>  
 </div>
 }

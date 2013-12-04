@@ -8,9 +8,15 @@ import play.data.validation.Constraints.*;
 import javax.persistence.*;
 
 @Entity
+@Table(
+    name="USER", 
+    uniqueConstraints=
+        @UniqueConstraint(columnNames={"ID", "USERNAME"})
+)
 public class User extends Model {
   
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
     @Required
@@ -26,21 +32,28 @@ public class User extends Model {
     @Required
     public String companyName;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
     public List<Bid> bids;
 
     public static Finder<Long, User> find = new Finder(Long.class, User.class);
 
-
-
+    /**
+     * 
+     */
     public static List<User> all() {
         return find.all();
     }
 
+    /**
+     * 
+     */
     public static void create(User user) {
         user.save();
     }
 
+    /**
+     * 
+     */
     public static boolean checkUser(User user) {
         return all().contains(user);
     }
@@ -49,7 +62,8 @@ public class User extends Model {
      * Delete a User
      */
     public static void delete(Long id) {
-        find.ref(id).delete();
+        User user = User.find.byId(id);
+        user.delete();
     }
 
     /**

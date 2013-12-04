@@ -55,6 +55,9 @@ h1.center {
 	float: none;
 	width: 85px;
 }
+.container {
+	margin-left: 20px;
+}
 .container h2.user-view-title {
 	margin-bottom: 20px;
 }
@@ -88,9 +91,6 @@ h1.center {
 .user-create-form .help-block {
 	display: none;
 }
-.container {
-	margin-left: 20px;
-}
 .bid-amount {
 	position: relative;
 	margin: 20px 0;
@@ -103,6 +103,18 @@ h1.center {
 	position: absolute;
 	left: 118px;
 	top: 31px;
+}
+.part-info-section {
+	display: inline-block;
+	width: 50%;
+}
+.part-detail-select {
+	display: inline-block;
+	width: 30%;
+	vertical-align: top;
+}
+.part-detail-select select {
+	width: 250px;
 }
 .part-select {
 	margin: 20px 0;
