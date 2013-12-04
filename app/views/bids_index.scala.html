@@ -59,8 +59,9 @@
                 @for(bid <- bids) {
                     <tr class="order-row">
                         <td class="id">@bid.id</td>
-                        <td class="part-name">@bid.part.label</td>
-                        <td class="bid-value">@bid.value</td>
+                        <td class="part-name">
+                            <a href="/bids/@bid.part.id/new" action="submit">@bid.part.label</a>
+                        </td>
                         <td class="company">@bid.user.companyName</td>
                         <td>@bid.user.name</td>
                         <td class="delete">

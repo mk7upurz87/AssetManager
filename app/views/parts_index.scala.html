@@ -47,11 +47,7 @@
             @for(part <- parts) {
                 <tr class="part-row">
                     <td class="part-name">
-                    @if(!("admin").equals(session().get("username"))) {
                         <a href="/bids/@part.id/new" action="submit">@part.label</a>
-                    } else {
-                        @part.label
-                    }
                     </td>
                     <td class="vendor">@part.vendor</td>
                     <td class="">@part.quantity</td>
@@ -67,7 +63,7 @@
             }
             </tbody>
         </table>
-        <p>-- Click the part for description --</p>
+        <indent><b>Click the part for description</b></indent>
         @if(("admin").equals(session().get("username"))) {
             <h2>Add New Part</h2>
             <div class="part-create-form">

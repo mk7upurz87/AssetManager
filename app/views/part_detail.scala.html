@@ -30,6 +30,9 @@
             </ul>
         </div>
     </nav>
+
+
+    
     <div class="container">
         @if(part != null) {
             <div class="part-info-section">
@@ -56,25 +59,29 @@
             }
             </select>
         </div>
-        <hr />
-        <h2>Place New Bid</h2>
-        <div class="bid-create-form">
-        @form(routes.Bids.createBid(part.id)) {
-            <div class="bid-amount">
-                @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
-            </div>
-                @textarea(bidForm("comment"), args = 'rows -> 3, 'cols -> 50, '_label -> "Comment (optional)", 'placeholder -> "Example: I would like only a qty of 2 of these.")
-            <button class="pure-button-error" type="submit" value="Place Bid">Place Bid</button>
+
+
+
+        @if(("admin").equals(session().get("username"))) {
+            <hr />
+            <h2>Place New Bid</h2>
+            <div class="bid-create-form">
+            @form(routes.Bids.createBid(part.id)) {
+                <div class="bid-amount">
+                    @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
+                </div>
+                    @textarea(bidForm("comment"), args = 'rows -> 3, 'cols -> 50, '_label -> "Comment (optional)", 'placeholder -> "Example: I would like only a qty of 2 of these.")
+                <button class="pure-button-error" type="submit" value="Place Bid">Place Bid</button>
+            }
         }
-        </div>
     </div>
+</div>
 </div>
 <script>
     $(function() {
-        $('#part-select').on('change', function(event) {
-            event.preventDefault()
-            var id = $(this).val().attr('data-id')
-            window.location.href = "/bids/" + id + "/new"
+        $('select option').on('change', function() {
+            window.location.href = "/bids/" + $(this).attr('data-id') + "/new"
         })
+        $('select').children().first().trigger('change')
     })
 }
