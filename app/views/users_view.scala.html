@@ -38,8 +38,8 @@
                     <td>ID</td>
                     <td>Name</td>
                     <td>Brand</td>
+                    <td>Bid Price</td>
                     <td>Quantity</td>
-                    <td>Value</td>
                     <td>Description</td>
                     @if(("admin").equals(session.get("username"))) {
                     <td>Delete</td>
@@ -52,8 +52,8 @@
                     <td>@bid.id</td>
                     <td>@bid.part.label</td>
                     <td>@bid.part.vendor</td>
-                    <td>@bid.part.quantity</td>
                     <td>$@bid.value</td>
+                    <td>@bid.part.quantity</td>
                     <td>@bid.part.description</td>
                     @if(("admin").equals(session.get("username"))) {
                     <td class="delete">

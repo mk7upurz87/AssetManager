@@ -53,6 +53,12 @@ public class Bids extends Controller {
         }
     }
 
+    public static Result acceptBid(Long id) {
+        //TODO send an email out to the bidder
+        Bid.delete(id);
+        return redirect(routes.Bids.index());
+    }
+
     public static Result deleteBid(long id) {
         Bid.delete(id);
         return redirect(routes.Bids.index());

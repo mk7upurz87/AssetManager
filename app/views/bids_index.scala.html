@@ -38,8 +38,10 @@
                 <thead>
                     <tr>
                         <td>ID</td>
-                        <td class="part-name">Part</td>
-                        <td class="bid-value">Value</td>
+                        <td class="part-name">Asset Name</td>
+                        <td class="part-company">Asset Brand</td>
+                        <td class="bid-value">Bid Price</td>
+                        <td class="part-quantity">Quantity</td>
                         <td class="company">Company</td>
                         <td>Contact Person</td>
                         <td>Delete</td>
@@ -55,15 +57,15 @@
                 @for(bid <- bids) {
                     <tr class="order-row">
                         <td class="id">@bid.id</td>
-                        <td class="part-name">
-                            <a href="/bids/@bid.part.id/new" action="submit">@bid.part.label</a>
-                        </td>
-                        <td class="bid-value">@bid.value</td>
+                        <td class="part-name"><a href="/bids/@bid.part.id/new" action="submit">@bid.part.label</a></td>
+                        <td class="part-brand">@bid.part.vendor</td>
+                        <td class="bid-value">$@bid.value</td>
+                        <td class="bid-quantity">@bid.part.quantity</td>
                         <td class="company">@bid.user.companyName</td>
                         <td>@bid.user.name</td>
                         <td class="delete">
                         @form(routes.Bids.deleteBid(bid.id)){
-                            <input class="pure-button-error close"  type="submit" value="X">
+                            <input class="pure-button-error close"  type="submit" value="X" />
                         }
                         </td>
                     </tr>
