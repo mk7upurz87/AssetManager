@@ -1,4 +1,4 @@
-@(part: Part, bidForm: Form[Bid], users: List[User])
+@(part: Part, bidForm: Form[Bid], users: List[User], errorMsg: String)
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -34,6 +34,9 @@
 
     
     <div class="container">
+        @if(errorMsg != null) {
+            <div class="part-detail-error">@errorMsg</div>
+        }
         @if(part != null) {
             <div class="part-info-section">
                 <h2>@part.label</h2>
@@ -52,7 +55,11 @@
             </div>
         }
         <div class="part-detail-select">
-            <h2>Select part</h2>
+            @if(part == null) {
+                <h2>Please select a part:</h2>
+            } else {
+                <h2>Select a different part?</h2>
+            }
             <select class="part-select" id="part-select" name="part-select" multiple="false">
             @for(p <- Part.all()){
                 <option value="@p.id" data-id="@p.id">@p.label</option>
@@ -62,16 +69,21 @@
 
 
 
-        @if(("admin").equals(session().get("username"))) {
+        @if(!("admin").equals(session().get("username"))) {
             <hr />
             <h2>Place New Bid</h2>
             <div class="bid-create-form">
-            @form(routes.Bids.createBid(part.id)) {
-                <div class="bid-amount">
-                    @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
-                </div>
-                    @textarea(bidForm("comment"), args = 'rows -> 3, 'cols -> 50, '_label -> "Comment (optional)", 'placeholder -> "Example: I would like only a qty of 2 of these.")
-                <button class="pure-button-error" type="submit" value="Place Bid">Place Bid</button>
+            @if(part != null) {
+                @form(routes.Bids.createBid(part.id)) {
+                    <div class="bid-amount">
+                        @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
+                    </div>
+                        @textarea(bidForm("comment"), args = 'rows -> 3, 'cols -> 50, '_label -> "Comment (optional)", 'placeholder -> "Example: I would like only a qty of 2 of these.")
+                    <button class="pure-button-error" type="submit" value="Place Bid">Place Bid</button>
+                }
+            } else {
+                <br />
+                <h3>You must select a part to place a bid...</h3>
             }
         }
     </div>
@@ -79,9 +91,10 @@
 </div>
 <script>
     $(function() {
-        $('select option').on('change', function() {
+        $('select option').on('click', function() {
             window.location.href = "/bids/" + $(this).attr('data-id') + "/new"
         })
         $('select').children().first().trigger('change')
     })
+    </script>
 }

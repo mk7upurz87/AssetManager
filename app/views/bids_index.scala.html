@@ -30,6 +30,8 @@
             </ul>
         </div>
     </nav>
+
+
     @if(("admin").equals(session.get("username"))) {
         <div class="container">
             <table class="pure-table pure-table-horizontal orders-list">
@@ -46,13 +48,7 @@
                 <tbody>
                 @if(bids.length == 0){
                     <tr>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td>
-                            <input class="pure-button-error delete"  type="submit" value="X">
+                        <td colspan="6"><div class="no-bids-msg">There are currently no bids in the system.</div>
                         </td>
                     </tr>
                 }
@@ -62,6 +58,7 @@
                         <td class="part-name">
                             <a href="/bids/@bid.part.id/new" action="submit">@bid.part.label</a>
                         </td>
+                        <td class="bid-value">@bid.value</td>
                         <td class="company">@bid.user.companyName</td>
                         <td>@bid.user.name</td>
                         <td class="delete">

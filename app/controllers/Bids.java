@@ -20,7 +20,7 @@ public class Bids extends Controller {
 
     public static Result newBid(Long partId) {
         Part part = Part.getById(partId);
-        return ok(views.html.part_detail.render(part, bidForm, User.all()));
+        return ok(views.html.part_detail.render(part, bidForm, User.all(), null));
     }
 
     public static Result createBid(Long partId) {
@@ -28,7 +28,7 @@ public class Bids extends Controller {
         if(filledForm.hasErrors()) {
             System.err.println(filledForm.toString());
             return badRequest(
-                views.html.part_detail.render(null, filledForm, User.all())
+                views.html.part_detail.render(null, filledForm, User.all(), "Sorry, there was a problem with your request.  If this problem persists, please contact MedTech.")
             );
         } else {
             String username = session().get("username");
@@ -37,6 +37,11 @@ public class Bids extends Controller {
             Bid bid = filledForm.get();
             bid.user = user;
             bid.part = Part.getById(partId);
+            if(bid.user.hasBidOnPart(bid.part.id)) {
+                return badRequest(
+                    views.html.part_detail.render(null, filledForm, User.all(), "You have already bid on: " + bid.part.label + ".  Please check your current bids.")
+                );
+            }
             Bid.create(bid);
 
             user.bids.add(bid);

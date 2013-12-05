@@ -14,13 +14,14 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames={"ID"})
 )
 public class Bid extends Model {
-  
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
     @Required
+    @Max(value=2147483647)
+    @Min(value=0)
     public Integer value;
 
     @ManyToOne(fetch=FetchType.LAZY)

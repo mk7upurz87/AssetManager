@@ -31,7 +31,7 @@
         </div>
     </nav>
     <div class="container">
-        <h2 class="center user-view-title">@User.getByUsername(session().get("username")).name's bids</h2>    
+        <h2 class="center user-view-title">@user.name's bids</h2>    
         <table class="pure-table pure-table-horizontal users-list">
             <thead>
                 <tr>
@@ -53,7 +53,7 @@
                     <td>@bid.part.label</td>
                     <td>@bid.part.vendor</td>
                     <td>@bid.part.quantity</td>
-                    <td>@bid.value</td>
+                    <td>$@bid.value</td>
                     <td>@bid.part.description</td>
                     @if(("admin").equals(session.get("username"))) {
                     <td class="delete">

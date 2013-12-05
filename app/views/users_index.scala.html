@@ -59,9 +59,11 @@
                 <tr class="user-row">
                     <td class=""><a href="/users/@user.id">@user.username</a></td>
                     <td class="delete">
+                    @if(!user.username.equals("admin")) {
                         @form(routes.Users.deleteUser(user.id)) {
                             <input class="pure-button-error close"  type="submit" value="x">
                         }
+                    }
                     </td>
                 </tr>
             }

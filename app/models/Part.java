@@ -20,24 +20,34 @@ public class Part extends Model {
     public Long id;
 
     @Required
+    // @Max(value=40)
+    // @Min(value=3)
     public String creator;
 
     @Required
+    // @Max(value=40)
+    // @Min(value=3)
     public String division;
 
     @Required
+    @Email
     public String email;
 
     @Required
     public String phone;
 
     @Required
+    // @Max(value=40)
+    // @Min(value=3)
     public String label;
     
     @Required
+    // @Max(value=40)
+    // @Min(value=3)
     public String vendor;
 
     @Required
+    // @Min(value=1)
     public Long quantity;
     
     public String description;

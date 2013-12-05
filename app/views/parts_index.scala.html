@@ -44,6 +44,17 @@
                 </tr>
             </thead>
             <tbody>
+            @if(parts == null || parts.size() == 0) {
+                <tr>
+                @if(("admin").equals(session().get("username"))) {
+                    <td colspan="5">
+                } else {
+                    <td colspan="4">
+                }
+                        <div class="no-parts-msg">There are currently no parts in the System.</div>
+                    </td>
+                </tr>
+            }
             @for(part <- parts) {
                 <tr class="part-row">
                     <td class="part-name">
@@ -51,7 +62,11 @@
                     </td>
                     <td class="vendor">@part.vendor</td>
                     <td class="">@part.quantity</td>
-                    <td class="description">@part.description</td>
+                    <td class="description">
+                        @if(part.description != null) {
+                            @part.description.slice(0,50)
+                        }
+                    </td>
                     @if(("admin").equals(session().get("username"))) {
                     <td class="delete">
                         @form(routes.Parts.deletePart(part.id)){
@@ -63,16 +78,15 @@
             }
             </tbody>
         </table>
-        <indent><b>Click the part for description</b></indent>
+        <div class="parts-footnote">Click for full description or to place a bid</div>
+        <hr />
         @if(("admin").equals(session().get("username"))) {
             <h2>Add New Part</h2>
             <div class="part-create-form">
             @form(routes.Parts.newPart(), 'enctype -> "multipart/form-data") {
 
                 @inputText(partForm("creator"), args = '_label -> "", '_showConstraints -> false, 'placeholder -> "Your Full Name")
-
                 @inputText(partForm("division"), args = '_label -> "", '_showConstraints -> false, 'placeholder -> "URMC Division")
-
                 @inputText(partForm("email"), args = '_label -> "", '_showConstraints -> false, 'placeholder -> "Email Address")                                 
                 @inputText(partForm("phone"), args = '_label -> "", '_showConstraints -> false, 'placeholder -> "Phone: (ex. 555-555-5555)")
 

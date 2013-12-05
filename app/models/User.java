@@ -20,16 +20,21 @@ public class User extends Model {
     public Long id;
 
     @Required
-    @MinLength(value=8)
+    // @Min(value=8)
+    // @Max(value=40)
     public String password;
 
     @Required
+    // @Max(value=30)
     public String username;
 
     @Required
+    // @Min(value=3)
+    // @Max(value=40)
     public String name;
 
     @Required
+    // @Max(value=100)
     public String companyName;
 
     @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
@@ -71,6 +76,18 @@ public class User extends Model {
      */
     public static User getByUsername(String username) {
         return find.where().eq("username", username).findUnique();
+    }
+
+    /**
+     *
+     */
+    public boolean hasBidOnPart(Long partId) {
+        for(Bid bid : bids) {
+            if(bid.part.id == partId) {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**

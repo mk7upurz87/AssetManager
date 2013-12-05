@@ -3,7 +3,6 @@
 
 parts:
     - !!models.Part
-        id:             1
         creator:        John Smith
         division:       2nd
         email:          mk7upurz87@yahoo.com
@@ -11,10 +10,9 @@ parts:
         label:          MRI
         vendor:         Block Image
         quantity:       3
-        description:    part1.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute "
 
     - !!models.Part
-        id:             2
         creator:        Tom Adams
         division:       Bravo - 4th
         email:          mk7upurz87@hotmail.com
@@ -22,10 +20,9 @@ parts:
         label:          Orthoscope
         vendor:         New Choice
         quantity:       1
-        description:    part2.txt
+        description:    
 
     - !!models.Part
-        id:             3
         creator:        Stephen Cray
         division:       3rd
         email:          mk7upurz87@yahoo.com
@@ -33,10 +30,9 @@ parts:
         label:          Microscope
         vendor:         Nikon
         quantity:       1
-        description:    part3.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident..."
 
     - !!models.Part
-        id:             4
         creator:        Corey Donovan
         division:       Wing 57
         email:          mk7upurz87@hotmail.com
@@ -44,10 +40,9 @@ parts:
         label:          Sterilizer Machine
         vendor:         Spa
         quantity:       2
-        description:    part4.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation..."
 
     - !!models.Part
-        id:             5
         creator:        John Smith
         division:       2nd
         email:          mk7upurz87@yahoo.com
@@ -55,10 +50,9 @@ parts:
         label:          Orthoscope
         vendor:         New Choice
         quantity:       1
-        description:    part5.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ..."
 
     - !!models.Part
-        id:             6
         creator:        John Smith
         division:       2nd
         email:          mk7upurz87@yahoo.com
@@ -66,10 +60,9 @@ parts:
         label:          MRI
         vendor:         Block Image
         quantity:       3
-        description:    part1.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ..."
 
     - !!models.Part
-        id:             7
         creator:        Tom Adams
         division:       Bravo - 4th
         email:          mk7upurz87@hotmail.com
@@ -77,10 +70,9 @@ parts:
         label:          Orthoscope
         vendor:         New Choice
         quantity:       1
-        description:    part2.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
     - !!models.Part
-        id:             8
         creator:        Stephen Cray
         division:       3rd
         email:          mk7upurz87@yahoo.com
@@ -88,10 +80,9 @@ parts:
         label:          Microscope
         vendor:         Nikon
         quantity:       1
-        description:    part3.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor..."
 
     - !!models.Part
-        id:             9
         creator:        Corey Donovan
         division:       Wing 57
         email:          mk7upurz87@hotmail.com
@@ -99,10 +90,9 @@ parts:
         label:          Sterilizer Machine
         vendor:         Spa
         quantity:       2
-        description:    part4.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna..."
 
     - !!models.Part
-        id:             10
         creator:        John Smith
         division:       2nd
         email:          mk7upurz87@yahoo.com
@@ -110,10 +100,9 @@ parts:
         label:          Orthoscope
         vendor:         New Choice
         quantity:       1
-        description:    part5.txt
-
+        description:    "Lorem ipsum dolor sit amet, consectetur..."
+    
     - !!models.Part
-        id:             11
         creator:        John Smith
         division:       2nd
         email:          mk7upurz87@yahoo.com
@@ -121,10 +110,9 @@ parts:
         label:          MRI
         vendor:         Block Image
         quantity:       3
-        description:    part1.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea..."
 
     - !!models.Part
-        id:             12
         creator:        Tom Adams
         division:       Bravo - 4th
         email:          mk7upurz87@hotmail.com
@@ -132,10 +120,9 @@ parts:
         label:          Orthoscope
         vendor:         New Choice
         quantity:       1
-        description:    part2.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex..."
 
     - !!models.Part
-        id:             13
         creator:        Stephen Cray
         division:       3rd
         email:          mk7upurz87@yahoo.com
@@ -143,10 +130,8 @@ parts:
         label:          Microscope
         vendor:         Nikon
         quantity:       1
-        description:    part3.txt
-
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veni..."
     - !!models.Part
-        id:             14
         creator:        Corey Donovan
         division:       Wing 57
         email:          mk7upurz87@hotmail.com
@@ -154,10 +139,9 @@ parts:
         label:          Sterilizer Machine
         vendor:         Spa
         quantity:       2
-        description:    part4.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco la..."
 
     - !!models.Part
-        id:             15
         creator:        John Smith
         division:       2nd
         email:          mk7upurz87@yahoo.com
@@ -165,7 +149,7 @@ parts:
         label:          Orthoscope
         vendor:         New Choice
         quantity:       1
-        description:    part5.txt
+        description:    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor..."
 
 # Bids
 
@@ -175,7 +159,6 @@ bids:
 
 users:
     - !!models.User
-        id:             1
         password:       password
         username:       user
         name:           Some Guy
@@ -183,7 +166,6 @@ users:
         bids:           
 
     - !!models.User
-        id:             2
         password:       password
         username:       user2
         name:           Some Gal
@@ -191,7 +173,6 @@ users:
         bids:           
 
     - !!models.User
-        id:             3
         password:       password
         username:       user3
         name:           Soma Thagale
@@ -199,7 +180,6 @@ users:
         bids:
 
     - !!models.User
-        id:             4
         password:       password
         username:       admin
         name:           Administrator

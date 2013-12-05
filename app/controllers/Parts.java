@@ -29,7 +29,9 @@ public class Parts extends Controller {
         Logger.debug(filledForm.toString());
         String fileName = null;
         String contentType = null;
+        String desc = "";
         FilePart description = body.getFile("description");
+
         if (description != null) {
             fileName = description.getFilename();
             contentType = description.getContentType(); 
@@ -39,13 +41,14 @@ public class Parts extends Controller {
                 FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr);
 
-                FileWriter fw = new FileWriter("/../../public/descriptions/" + fileName + ".txt", true);
+                //FileWriter fw = new FileWriter("/../../public/descriptions/" + fileName + ".txt", true);
                 String s;
                 while((s = br.readLine()) != null) {
-                    fw.write(s);
+                    desc.concat("\n" + s);
+                    // fw.write(s);
                 }
                 fr.close();
-                fw.close();
+                // fw.close();
             }
             catch(FileNotFoundException fnfe) {
                 System.err.println(fnfe.getStackTrace());
@@ -63,7 +66,13 @@ public class Parts extends Controller {
             );
         } else {
             Part part = filledForm.get();
-            part.setDesc(fileName);
+            if(!part.phone.matches("^\\(\\d{3}\\)\\d{3}-\\d{4}|\\d{3}-\\d{3}-\\d{4}|\\d{10}$")) {
+                return badRequest(
+                    views.html.parts_index.render(Part.all(), filledForm)
+                );
+            }
+            // part.setDesc(fileName);
+            part.description = desc;
 
             // SimpleEmail email = new SimpleEmail();
             // email.setFrom(part.creator + "@AssetManager");
