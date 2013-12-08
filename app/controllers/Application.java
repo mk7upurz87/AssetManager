@@ -1,10 +1,8 @@
 package controllers;
 
-import play.*;
 import play.mvc.*;
 import play.data.*;
 
-import views.html.*;
 import models.*;
 
 public class Application extends Controller {
@@ -18,5 +16,15 @@ public class Application extends Controller {
 
     public static Result app_index() {
         return Parts.index();
+    }
+
+    public static boolean checkLoggedIn() {
+    	String currUser = session().get("username");
+    	for(User user : User.all()) {
+    		if(user.username.equals(currUser)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 }

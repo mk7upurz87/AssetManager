@@ -1,0 +1,72 @@
+@(loginForm: Form[Login])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("MedTech - Info") {
+<div class="main-container">
+	<div class="company">
+		<div class="left-frame">
+			<img class="logo" src="@routes.Assets.at("/images/logo.png")"/>
+			<div class="asset-manager-container">
+				<div>
+				@if(session.get("username") == null) {
+				    @form(routes.Login.authenticate()) {
+				        <div class="input-fields">
+				            @inputText(loginForm("username"), args = '_label -> " ", 'placeholder -> "Username", '_showConstraints -> false)
+
+				            @inputPassword(loginForm("password"), args = '_label -> " ", 'placeholder -> "Password", '_showConstraints -> false)
+				        </div>
+				        <button class="pure-button-error" type="submit" value="Login">Login</button>
+						@if(loginForm.hasGlobalErrors) {
+						    <p class="error">
+						        @loginForm.globalError.message
+						    </p>
+						}
+				    }
+				} else {
+				    @form(routes.Login.logout()) {
+						<button class="pure-button-error" type="submit" value="Logout">Logout</button>
+					}	
+					@form(routes.Application.app_index()) {
+						<button class="pure-button-error" type="submit" value="Asset Manager">Asset Manager</button>			
+					}
+				}
+				</div>
+			</div>
+		</div>
+        <div class="right-frame">
+       
+	        <p><strong>MedTech Supply</strong> is a reseller of Used and New Surplus Medical Equipment. </p>
+	  		<p>MedTech works with Healthcare facilities nationwide creating Turn Key Solutions for the following services</p>
+			<ul>
+		  		<li>Web Based Equipment Management</li>
+		  		<li>On Site Storage </li>
+		  		<li>Remarketing Equipment </li>
+	  		</ul>
+	  		<hr />
+	    	<span class="contact-info">
+	    		<b>Contact Us</b>
+				<br>
+				MedTech Supply, LLC
+				<br>
+				235 Middle Rd
+				<br>
+				Henrietta NY 14467 <br>
+				Phone: 585-334-2976
+				<br>
+				email: <a href='mailto:sales&#64medtechsupply.com'>sales&#64medtechsupply.com</a>
+			</span>
+		</div>
+    </div>
+    <div class="bug-report" style="border: 1px dotted #000; font-size: .8em; margin: 100px 30px; padding-left: 20px">
+    	<h3>Release 1 Known bugs:</h3>
+    	<ul>
+	    	<li>file upload does not load the description to view</li>
+	    	<li>no email notification on new bid</li>
+	    	<li>Enter an extremely long name for a username = error too long</li>
+	    	<li>Entering anything but an integer in the bid price field yields an inexplicit message</li>
+    	</ul>
+    </div>
+</div>
+}

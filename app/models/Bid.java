@@ -32,9 +32,7 @@ public class Bid extends Model {
 
     public String comment;
 
-    public static Finder<Long, Bid> find = new Finder(
-        Long.class, Bid.class
-    );
+    public static Finder<Long, Bid> find = new Finder<Long, Bid>(Long.class, Bid.class);
 
     public static List<Bid> all() {
         return find.all();

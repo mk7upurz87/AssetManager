@@ -4,8 +4,8 @@ import play.db.ebean.*;
 import play.data.validation.Constraints.*;
 
 import java.util.*;
+
 import javax.persistence.*;
-import java.io.*;
 
 @Entity
 @Table(
@@ -14,48 +14,44 @@ import java.io.*;
         @UniqueConstraint(columnNames={"ID"})
 )
 public class Part extends Model {
-  
-    @Id
+
+	private static final long serialVersionUID = 7739003293639778488L;
+
+	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long id;
 
-    @Required
-    // @Max(value=40)
-    // @Min(value=3)
+    @Required(message="You must enter your name for the record")
     public String creator;
 
-    @Required
-    // @Max(value=40)
-    // @Min(value=3)
+    @Required(message="Please enter a division")
     public String division;
 
-    @Required
-    @Email
+    @Required(message="Please enter a valid email address")
+    @Email(message="Please enter a valid email address")
     public String email;
 
-    @Required
+    @Required(message="Please enter a valid phone number")
+    @Pattern(value="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$",
+    		message="example: (555)555-5555, 555-555-5555")
     public String phone;
 
-    @Required
-    // @Max(value=40)
-    // @Min(value=3)
+    @Required(message="Please enter a label for the part")
     public String label;
     
-    @Required
-    // @Max(value=40)
-    // @Min(value=3)
+    @Required(message="Please enter a vendor name")
     public String vendor;
 
-    @Required
-    // @Min(value=1)
+    @Required(message="The minimum quantity is 1")
     public Long quantity;
     
+    @Required(message="Enter a description such as the condition of the asset")
     public String description;
 
     @OneToMany(mappedBy="part", cascade=CascadeType.REMOVE)
     public List<Bid> bids;
 
-    public static Finder<Long, Part> find = new Finder(Long.class, Part.class);
+    public static Finder<Long, Part> find = new Finder<Long, Part>(Long.class, Part.class);
 
 
     public void setDesc(String desc) {
@@ -84,7 +80,8 @@ public class Part extends Model {
         part.delete();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         description = description == null ? description : "no desctiption provided.";
         return "Part ID:\t"    + id
             +"\nName: "        + label

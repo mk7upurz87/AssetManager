@@ -40,6 +40,13 @@
 h1.center {
 	text-align: center;
 }
+.part-form-title h2 {
+	width: 130px;
+	display: inline-block;
+}
+.part-form-title .form-error {
+	margin-left: 10px;
+}
 .asset-manager-container .error {
 	display: inline-block;
 }
@@ -108,6 +115,9 @@ h1.center {
 .parts-footnote {
 	font-weight: 700;
 	font-style: italic;
+}
+.part-create-form {
+	margin-bottom: 50px;
 }
 .part-create-form .input > input {
 	width: 200px;

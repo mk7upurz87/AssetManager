@@ -1,13 +1,9 @@
 package controllers;
 
-import play.*;
 import play.mvc.*;
 import play.data.*;
 
-import views.html.*;
 import models.*;
-
-import java.util.Map;
 
 public class Bids extends Controller {
 

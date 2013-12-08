@@ -3,7 +3,6 @@ package controllers;
 import play.*;
 import play.mvc.*;
 import play.data.*;
-import play.db.ebean.*;
 import play.data.validation.Constraints.*;
 
 import views.html.*;
