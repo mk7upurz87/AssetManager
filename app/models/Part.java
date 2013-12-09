@@ -82,15 +82,14 @@ public class Part extends Model {
 
     @Override
 	public String toString() {
-        description = description == null ? description : "no desctiption provided.";
         return "Part ID:\t"    + id
-            +"\nName: "        + label
-            +"\nVendor: "      + vendor
-            +"\nQuantity: "    + quantity
-            +"\nDescription: " + description + "\n"
-            +"\nDivision: "    + division
-            +"\nCreator: "     + creator
-            +"\nEmail: "       + email + " | "
-            +  "Phone: "       + phone;
+            +"\nName:\t\t"        + label
+            +"\nVendor:\t\t"      + vendor
+            +"\nQuantity:\t"    + quantity
+            +"\nDescription:\t" + description + "\n"
+            +"\nCreator:\t"     + creator
+            +"\nDivision:\t"    + division
+            +"\nEmail:\t\t"       + email
+            +"\nPhone:\t\t"       + phone;
     }
 }

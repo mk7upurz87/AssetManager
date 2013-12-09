@@ -40,6 +40,9 @@
 h1.center {
 	text-align: center;
 }
+.part-detail-select h2 {
+	width: 213px;
+}
 .part-form-title h2 {
 	width: 130px;
 	display: inline-block;
@@ -102,6 +105,10 @@ h1.center {
 .bid-amount {
 	position: relative;
 	margin: 20px 0;
+}
+.bid-email {
+	position: relative;
+	margin-bottom: 20px;
 }
 .bid-amount input {
 	margin-top: 5px;

@@ -23,6 +23,9 @@ public class Bid extends Model {
     @Max(value=2147483647)
     @Min(value=0)
     public Integer value;
+    
+    @Required
+    public String email;
 
     @ManyToOne(fetch=FetchType.LAZY)
     public User user;

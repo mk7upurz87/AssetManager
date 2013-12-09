@@ -77,7 +77,10 @@
             @if(part != null) {
                 @form(routes.Bids.createBid(part.id)) {
                     <div class="bid-amount">
-                        @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount", 'placeholder -> "Amount")<span class="dollars">dollars</span>
+                        @inputText(bidForm("value"), args = '_label -> "Enter Bid Amount:", 'placeholder -> "Amount")<span class="dollars">dollars</span>
+                    </div>
+                    <div class="bid-email">
+                        @inputText(bidForm("email"), args = '_label -> "Enter Your Email:", 'placeholder -> "Email")
                     </div>
                         @textarea(bidForm("comment"), args = 'rows -> 3, 'cols -> 50, '_label -> "Comment (optional)", 'placeholder -> "Example: I would like only a qty of 2 of these.")
                     <button class="pure-button-error" type="submit" value="Place Bid">Place Bid</button>

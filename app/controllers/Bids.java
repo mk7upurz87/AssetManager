@@ -1,8 +1,20 @@
 package controllers;
 
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
+
 import play.mvc.*;
 import play.data.*;
-
 import models.*;
 
 public class Bids extends Controller {
@@ -40,6 +52,36 @@ public class Bids extends Controller {
             }
             Bid.create(bid);
 
+            try {
+                String host = "smtp.gmail.com";
+                String uname = "MedTechAM@gmail.com";
+                String password = "Somethinggreat7";
+                InternetAddress[] addresses = {new InternetAddress("f.pecora@p3systemsinc.com"),
+               		 new InternetAddress(bid.email)};
+                Properties props = new Properties();
+                
+                // set any needed mail.smtps.* properties here
+                Session session = Session.getInstance(props);
+                MimeMessage message = new MimeMessage(session);
+	            message.setSubject("Bid Added: " + bid.part.vendor + " - " + bid.part.label);
+	            message.setContent("A Bid has been placed using the Asset Manager:\n\n"
+		                + bid.part.toString()
+		                + "\n\nAmount: $" + bid.value
+		                + "\nComment: " + bid.comment, "text/plain");
+	            message.setRecipients(Message.RecipientType.TO, addresses);
+                
+                // set the message content here
+                Transport t = session.getTransport("smtps");
+                try {
+                	t.connect(host, uname, password);
+                	t.sendMessage(message, message.getAllRecipients());
+                } finally {
+                	t.close();
+                }  	
+			}
+            catch (MessagingException me) {
+				me.printStackTrace();
+			}
             user.bids.add(bid);
 
             if(!("admin").equals(username)) {

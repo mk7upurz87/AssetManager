@@ -6,6 +6,7 @@
 create table BID (
   id                        bigint auto_increment not null,
   value                     integer,
+  email                     varchar(255),
   user_id                   bigint,
   part_id                   bigint,
   comment                   varchar(255),

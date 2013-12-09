@@ -1,28 +1,25 @@
 package controllers;
 
 import play.mvc.*;
-import play.api.Play;
-import play.api.mvc.Session;
 import play.data.*;
 
 import java.util.*;
 
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 import models.*;
 
 public class Parts extends Controller {
 
-    static Form<Part> partForm = Form.form(Part.class);
+    static Form<models.Part> partForm = Form.form(models.Part.class);
 
     public static Result index() {
-        return ok(views.html.parts_index.render(Part.all(), partForm));
+        return ok(views.html.parts_index.render(models.Part.all(), partForm));
     }
 
     public static Result newPart() {
-        Form<Part> filledForm = partForm.bindFromRequest();
+        Form<models.Part> filledForm = partForm.bindFromRequest();
 //        MultipartFormData body = request().body().asMultipartFormData();
 //        Logger.debug(filledForm.toString());
 //        String fileName = null;
@@ -60,41 +57,46 @@ public class Parts extends Controller {
 //        }
         if(filledForm.hasErrors()) {
             return badRequest(
-                views.html.parts_index.render(Part.all(), filledForm)
+                views.html.parts_index.render(models.Part.all(), filledForm)
             );
         } else {
-            Part part = filledForm.get();
-//            if(!part.phone.matches("^\\(\\d{3}\\)\\d{3}-\\d{4}|\\d{3}-\\d{3}-\\d{4}|\\d{10}$")) {
-//                return badRequest(
-//                    views.html.parts_index.render(Part.all(), filledForm)
-//                );
-//            }
-            // part.setDesc(fileName);
-
+            models.Part part = filledForm.get();
             try {
-	            Email email = new SimpleEmail();
-	            email.setHostName("smtp.gmail.com");
-	            email.setSmtpPort(465);
-				email.setFrom("MedTechAM@gmail.com","Asset Manager");
-	            email.addTo("mk7upurz87@gmail.com", "Frank Pecora");
-	            email.addTo(part.email);
-	            email.setSubject("Part Added: " + part.vendor + " - " + part.label);
-	            email.setMsg("A Part has been added to the Asset Manager:\n\n"
-	                + part.toString());
-	            email.addCc("shaundevos668@hotmail.com");
-	            email.send();
-             
-			} catch (EmailException ee) {
-				ee.printStackTrace();
+                String host = "smtp.gmail.com";
+                String username = "MedTechAM@gmail.com";
+                String password = "Somethinggreat7";
+                InternetAddress[] addresses = {new InternetAddress("f.pecora@p3systemsinc.com"),
+               		 new InternetAddress(part.email)};
+                Properties props = new Properties();
+                
+                // set any needed mail.smtps.* properties here
+                Session session = Session.getInstance(props);
+                MimeMessage message = new MimeMessage(session);
+	            message.setSubject("Part Added: " + part.vendor + " - " + part.label);
+	            message.setContent("A Part has been added to the Asset Manager:\n\n"
+		                + part.toString(), "text/plain");
+	            message.setRecipients(Message.RecipientType.TO, addresses);
+                
+                // set the message content here
+                Transport t = session.getTransport("smtps");
+                try {
+                	t.connect(host, username, password);
+                	t.sendMessage(message, message.getAllRecipients());
+                } finally {
+                	t.close();
+                }  	
+			}
+            catch (MessagingException me) {
+				me.printStackTrace();
 			}
 
-            Part.create(part);
+            models.Part.create(part);
             return redirect(routes.Parts.index());
         }
     }
 
     public static Result deletePart(long id) {
-        Part.delete(id);
+        models.Part.delete(id);
         List<Bid> bids = Bid.all();
         for(Bid bid : bids) {
             if(bid.part.id == id) {
