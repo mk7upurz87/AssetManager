@@ -128,6 +128,10 @@ h1.center {
 }
 .part-create-form .input > input {
 	width: 200px;
+	margin-bottom: 10px;
+}
+#creator_field {
+	margin-top: 15px;
 }
 .part-info-section {
 	display: inline-block;
