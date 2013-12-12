@@ -1,8 +1,13 @@
 package controllers;
 
 import play.mvc.*;
+import play.api.Logger;
+import play.api.libs.Files;
+import play.api.mvc.MultipartFormData;
+import play.api.mvc.MultipartFormData.FilePart;
 import play.data.*;
 
+import java.io.*;
 import java.util.*;
 
 import javax.mail.*;
@@ -20,53 +25,61 @@ public class Parts extends Controller {
 
     public static Result newPart() {
         Form<models.Part> filledForm = partForm.bindFromRequest();
-//        MultipartFormData body = request().body().asMultipartFormData();
-//        Logger.debug(filledForm.toString());
-//        String fileName = null;
-//        String contentType = null;
-//        String desc = "";
-//        FilePart description = body.getFile("description");
+        play.mvc.Http.MultipartFormData body = request().body().asMultipartFormData();
+        String fileName = null;
+        String contentType = null;
+        String desc = "";
+        play.mvc.Http.MultipartFormData.FilePart description = body.getFile("description");
 
-//        if (description != null) {
-//            fileName = description.getFilename();
-//            contentType = description.getContentType(); 
-//            File file = description.getFile();
-//
-//            try {
-//                FileReader fr = new FileReader(file);
-//                BufferedReader br = new BufferedReader(fr);
-//
-//                //FileWriter fw = new FileWriter("/../../public/descriptions/" + fileName + ".txt", true);
-//                String s;
-//                while((s = br.readLine()) != null) {
-//                    desc.concat("\n" + s);
-//                    // fw.write(s);
-//                }
-//                fr.close();
-//                // fw.close();
-//            }
-//            catch(FileNotFoundException fnfe) {
-//                System.err.println(fnfe.getStackTrace());
-//            }
-//            catch(IOException ioe) {
-//                System.err.println(ioe.getStackTrace());
-//            }
-//        } else {
-//            flash("error", "Missing file");
-//            return redirect(routes.Parts.index());    
-//        }
+        if (description != null) {
+            fileName = description.getFilename();
+            
+            if (fileName.matches("[_a-zA-Z0-9\\-\\.]+")) {
+	            contentType = description.getContentType(); 
+	            File file = description.getFile();
+	            
+	            try {
+	            	InputStream in = new FileInputStream(file);
+            	    BufferedReader br =
+            	      new BufferedReader(new InputStreamReader(in));
+            	    
+            	    if(!file.exists()) {
+            	    	Logger.apply("file did not exist in system");
+            	    	file = new File("emptyDesc.txt");
+            	    }
+	                OutputStream out = new FileOutputStream(fileName, true);
+	                String s;
+	                
+	                while((s = br.readLine()) != null) {
+	                    out.write(s.getBytes());
+	                }
+	                in.close();
+	                out.close();
+	            }
+	            catch(FileNotFoundException fnfe) {
+	                System.err.println(fnfe.getStackTrace());
+	            }
+	            catch(IOException ioe) {
+	                System.err.println(ioe.getStackTrace());
+	            }
+            }
+        } else {
+            flash("error", "Missing file");
+            return redirect(routes.Parts.index());    
+        }
         if(filledForm.hasErrors()) {
             return badRequest(
                 views.html.parts_index.render(models.Part.all(), filledForm)
             );
         } else {
             models.Part part = filledForm.get();
+            
             try {
                 String host = "smtp.gmail.com";
                 String username = "MedTechAM@gmail.com";
                 String password = "Somethinggreat7";
                 InternetAddress[] addresses = {new InternetAddress("f.pecora@p3systemsinc.com"),
-                    new InternetAddress(bid.email),
+                    new InternetAddress(part.email),
                     new InternetAddress("dgeorge@p3systemsinc.com")};
                 Properties props = new Properties();
                 
