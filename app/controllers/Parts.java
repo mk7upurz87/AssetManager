@@ -2,9 +2,6 @@ package controllers;
 
 import play.mvc.*;
 import play.api.Logger;
-import play.api.libs.Files;
-import play.api.mvc.MultipartFormData;
-import play.api.mvc.MultipartFormData.FilePart;
 import play.data.*;
 
 import java.io.*;
@@ -27,26 +24,27 @@ public class Parts extends Controller {
         Form<models.Part> filledForm = partForm.bindFromRequest();
         play.mvc.Http.MultipartFormData body = request().body().asMultipartFormData();
         String fileName = null;
-        String contentType = null;
-        String desc = "";
         play.mvc.Http.MultipartFormData.FilePart description = body.getFile("description");
 
         if (description != null) {
             fileName = description.getFilename();
             
             if (fileName.matches("[_a-zA-Z0-9\\-\\.]+")) {
-	            contentType = description.getContentType(); 
 	            File file = description.getFile();
 	            
 	            try {
+	            	//Open the byte stream to read in the bytes
 	            	InputStream in = new FileInputStream(file);
             	    BufferedReader br =
             	      new BufferedReader(new InputStreamReader(in));
             	    
+            	    //If the file is not on the server, create one
             	    if(!file.exists()) {
             	    	Logger.apply("file did not exist in system");
             	    	file = new File("emptyDesc.txt");
             	    }
+            	    
+            	    //Open the the byte stream to output the bytes
 	                OutputStream out = new FileOutputStream(fileName, true);
 	                String s;
 	                
