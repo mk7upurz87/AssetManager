@@ -1,13 +1,20 @@
 package controllers;
 
+import play.Play;
 import play.mvc.*;
-import play.api.Logger;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.*;
 import play.data.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.*;
+import javax.mail.Part;
 import javax.mail.internet.*;
 
 import models.*;
@@ -20,50 +27,35 @@ public class Parts extends Controller {
         return ok(views.html.parts_index.render(models.Part.all(), partForm));
     }
 
-    public static Result newPart() {
+	public static Result newPart() {
         Form<models.Part> filledForm = partForm.bindFromRequest();
-        play.mvc.Http.MultipartFormData body = request().body().asMultipartFormData();
+        MultipartFormData body = request().body().asMultipartFormData();
+        FilePart attachment = body.getFile("attachment");
+        
         String fileName = null;
-        play.mvc.Http.MultipartFormData.FilePart description = body.getFile("description");
-
-        if (description != null) {
-            fileName = description.getFilename();
+        String newFilePath = null;
+        File file = null;
+        
+        if (attachment != null) {
+            fileName = attachment.getFilename().replace(" ", "_");
             
             if (fileName.matches("[_a-zA-Z0-9\\-\\.]+")) {
-	            File file = description.getFile();
+	            file = attachment.getFile();
 	            
 	            try {
-	            	//Open the byte stream to read in the bytes
-	            	InputStream in = new FileInputStream(file);
-            	    BufferedReader br =
-            	      new BufferedReader(new InputStreamReader(in));
-            	    
-            	    //If the file is not on the server, create one
-            	    if(!file.exists()) {
-            	    	Logger.apply("file did not exist in system");
-            	    	file = new File("emptyDesc.txt");
-            	    }
-            	    
-            	    //Open the the byte stream to output the bytes
-	                OutputStream out = new FileOutputStream(fileName, true);
-	                String s;
-	                
-	                while((s = br.readLine()) != null) {
-	                    out.write(s.getBytes());
-	                }
-	                in.close();
-	                out.close();
+            	    String applicationRoot = Play.application().path().getPath();
+        	    	newFilePath = applicationRoot + "\\public\\attachments\\" + fileName;
+        	    	File newFile = new File(newFilePath);
+    	        	Files.move(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    	        	file = newFile;
 	            }
 	            catch(FileNotFoundException fnfe) {
-	                System.err.println(fnfe.getStackTrace());
-	            }
+	            	System.err.println("File: " + file.getName() + " \n" + fnfe.getStackTrace());
+	            }	            
 	            catch(IOException ioe) {
 	                System.err.println(ioe.getStackTrace());
 	            }
             }
-        } else {
-            flash("error", "Missing file");
-            return redirect(routes.Parts.index());    
         }
         if(filledForm.hasErrors()) {
             return badRequest(
@@ -72,24 +64,55 @@ public class Parts extends Controller {
         } else {
             models.Part part = filledForm.get();
             
+            if(newFilePath != null) {
+            	part.attachment = file;
+            	part.attachmentName = file.getName();
+            	part.save();
+            }
             try {
                 String host = "smtp.gmail.com";
                 String username = "MedTechAM@gmail.com";
                 String password = "Somethinggreat7";
-                InternetAddress[] addresses = {new InternetAddress("f.pecora@p3systemsinc.com"),
-                    new InternetAddress(part.email),
-                    new InternetAddress("dgeorge@p3systemsinc.com")};
+                InternetAddress[] addresses = {
+                		new InternetAddress("f.pecora@p3systemsinc.com"),
+                		new InternetAddress(part.email)
+                		new InternetAddress("dgeorge@p3systemsinc.com")
+                };
                 Properties props = new Properties();
-                
-                // set any needed mail.smtps.* properties here
+
+                // set any needed mail.smtps.* properties here                
                 Session session = Session.getInstance(props);
+                Multipart mp = new MimeMultipart();
                 MimeMessage message = new MimeMessage(session);
 	            message.setSubject("Part Added: " + part.vendor + " - " + part.label);
-	            message.setContent("A Part has been added to the Asset Manager:\n\n"
-		                + part.toString(), "text/plain");
 	            message.setRecipients(Message.RecipientType.TO, addresses);
+	            
+                // create the body of the email                
+                MimeBodyPart htmlPart = new MimeBodyPart();
+                String bodyContent = "";
                 
-                // set the message content here
+                // create the attachment of the email                
+                if(part.attachment != null) {
+	                MimeBodyPart attach = new MimeBodyPart();
+	                FileDataSource source = new FileDataSource(part.attachment);
+	                attach.setDataHandler(new DataHandler(source));
+	                attach.setFileName(source.getName());
+	                attach.setDisposition(Part.ATTACHMENT);
+	                mp.addBodyPart(attach);
+	                
+	                bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
+    		                + part.toString()
+    		                + "<br />"
+    		                + "See attached File for details...";
+                } else {
+                	bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
+    		                + part.toString();
+                }
+
+                htmlPart.setContent(bodyContent, "text/html");
+                mp.addBodyPart(htmlPart);
+            	message.setContent(mp);
+	            
                 Transport t = session.getTransport("smtps");
                 try {
                 	t.connect(host, username, password);
@@ -101,7 +124,7 @@ public class Parts extends Controller {
             catch (MessagingException me) {
 				me.printStackTrace();
 			}
-
+            
             models.Part.create(part);
             return redirect(routes.Parts.index());
         }

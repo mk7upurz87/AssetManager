@@ -1,4 +1,4 @@
-@(parts: List[Part], partForm: Form[Part])
+@(parts: List[Part], partForm: play.data.Form[Part])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -38,6 +38,7 @@
                     <td class="brand">Brand</td>
                     <td>Quantity</td>
                     <td>Description</td>
+                    <td>Attachment</td>
                     @if(("admin").equals(session().get("username"))) {
                     <td class="delete">Delete</td>
                     }
@@ -62,14 +63,17 @@
                     </td>
                     <td class="vendor">@part.vendor</td>
                     <td class="">@part.quantity</td>
-                    <td class="description">
-                        @if(part.description != null) {
-                            @part.description.slice(0,50)
+                    <td class="description">@part.description</td>
+                    <td class="attachment">
+                        @if(part.attachmentName != null) {
+                            <a href="/attachments/@part.attachmentName" target="_blank">
+                           		<div class="desc-icon"></div>
+                            </a>
                         }
                     </td>
                     @if(("admin").equals(session().get("username"))) {
                     <td class="delete">
-                        @form(routes.Parts.deletePart(part.id)){
+                        @form(routes.Parts.deletePart(part.id)) {
                             <input class="pure-button-error close" type="submit" value="x">
                         }
                     </td>
@@ -86,8 +90,8 @@
                 <span class='form-error'></span>
             </div>
             <div class="part-create-form">
-            <!-- form(routes.Parts.newPart(), 'class = "new-part-form", 'enctype = "multipart/form-data") -->
-			@form(routes.Parts.newPart(), 'class -> "new-part-form") {
+            @form(routes.Parts.newPart(), 'class -> "new-part-form", 'enctype -> "multipart/form-data") {
+				
                 @inputText(partForm("creator"), args = '_label -> "Your Name: ", '_showConstraints -> true, 'placeholder -> "Your Full Name")
                 @inputText(partForm("division"), args = '_label -> "Division: ", '_showConstraints -> true, 'placeholder -> "Your URMC Division")
                 @inputText(partForm("email"), args = '_label -> "Email: ", '_showConstraints -> true, 'placeholder -> "You email address")                                 
@@ -96,7 +100,7 @@
                 @inputText(partForm("vendor"), args = '_label -> "Vendor Name:", '_showConstraints -> true, 'placeholder -> "aka: Manufacturer") 
                 @inputText(partForm("quantity"), args = '_label -> "Quantity: ", '_showConstraints -> true, 'placeholder -> "Number available")
 				@textarea(partForm("description"), '_label -> "Part Description:", '_showConstraints -> true, 'placeholder -> "Specify information about the condition, location or available options...", 'rows -> 3, 'cols -> 50)
-                <!-- inputFile(partForm("description"), args = '_label -> "", '_showConstraints -> true) -->
+                @inputFile(partForm("attachment"), args = '_label -> "Attach File:", '_showConstraints -> true)
                 
                 <button class="pure-button-error add-part" type="submit" value="add part">Add Part</button>
             }

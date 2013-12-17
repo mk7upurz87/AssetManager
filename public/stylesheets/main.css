@@ -137,6 +137,13 @@ h1.center {
 	display: inline-block;
 	width: 50%;
 }
+.parts-list .attachment .desc-icon {
+	vertical-align: middle;
+	text-align: center;
+	height: 26px;
+	width: 22px;
+	background: url("../img/glyphicons/png/glyphicons_151_new_window.png");
+}
 .part-detail-error {
 	background: #ffcccc;
 	padding: 5px;

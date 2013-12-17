@@ -3,6 +3,9 @@ package models;
 import play.db.ebean.*;
 import play.data.validation.Constraints.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 import javax.persistence.*;
@@ -45,18 +48,17 @@ public class Part extends Model {
     @Required(message="The minimum quantity is 1")
     public Long quantity;
     
-    @Required(message="Enter a description such as the condition of the asset")
     public String description;
-
+    
+    public File attachment;
+    
+    public String attachmentName;
+    
     @OneToMany(mappedBy="part", cascade=CascadeType.REMOVE)
     public List<Bid> bids;
 
     public static Finder<Long, Part> find = new Finder<Long, Part>(Long.class, Part.class);
 
-
-    public void setDesc(String desc) {
-        this.description = desc;
-    }
 
     public static List<Part> all() {
         return find.all();
@@ -77,19 +79,30 @@ public class Part extends Model {
 
     public static void delete(Long id) {
         Part part = Part.find.byId(id);
+        if(part.attachment != null) {
+        	try {
+				Files.delete(part.attachment.toPath());
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+        }
         part.delete();
     }
 
     @Override
 	public String toString() {
-        return "Part ID:\t"    + id
-            +"\nName:\t\t"        + label
-            +"\nVendor:\t\t"      + vendor
-            +"\nQuantity:\t"    + quantity
-            +"\nDescription:\t" + description + "\n"
-            +"\nCreator:\t"     + creator
-            +"\nDivision:\t"    + division
-            +"\nEmail:\t\t"       + email
-            +"\nPhone:\t\t"       + phone;
+    	String partString = "";
+    	partString = partString.concat("\n<p><b>Name:</b>"			+ label 	+ "</p>");
+    	partString = partString.concat("\n<p><b>Vendor:</b>"		+ vendor	+ "</p>");
+    	partString = partString.concat("\n<p><b>Quantity:</b>"		+ quantity	+ "</p>");
+    	if(description != null) {
+    		partString = partString.concat("\n<p><b>Description:" 	+ description + "</p>");
+    	}
+    	partString = partString.concat("\n<p><b>Creator:</b>"		+ creator	+ "</p>");
+    	partString = partString.concat("\n<p><b>Division:</b>"		+ division	+ "</p>");
+    	partString = partString.concat("\n<p><b>Email:</b>"			+ email		+ "</p>");
+    	partString = partString.concat("\n<p><b>Phone:</b>"			+ phone		+ "</p>");
+    	
+    	return partString;
     }
 }

@@ -1,4 +1,4 @@
-@(part: Part, bidForm: Form[Bid], users: List[User], errorMsg: String)
+@(part: Part, bidForm: play.data.Form[Bid], users: List[User], errorMsg: String)
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -52,6 +52,15 @@
                 </div>
                 <div class="part-bid-count">
                     <p><b>Number of Bids:</b> @part.bids.size()</p>
+                </div>
+                <div class="part-attachment">
+                	<p><b>Attachment:</b>
+                        @if(part.attachmentName != null) {
+                            <a href="@routes.Assets.at("attachments/" + part.attachmentName)" target="_blank">
+                           		<div class="desc-icon"></div>
+                            </a>
+                        }
+					</p>
                 </div>
             </div>
         }
