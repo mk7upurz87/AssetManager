@@ -76,33 +76,28 @@ public class Bids extends Controller {
                 
                 // create the attachment of the email                
                 if(bid.part.attachment != null) {
-                        MimeBodyPart attach = new MimeBodyPart();
-                        FileDataSource source = new FileDataSource(part.attachment);
-                        attach.setDataHandler(new DataHandler(source));
-                        attach.setFileName(source.getName());
-                        attach.setDisposition(Part.ATTACHMENT);
-                        mp.addBodyPart(attach);
-                        
-                        bodyContent = "A Bid has been placed using the Asset Manager:\n\n"
+	                MimeBodyPart attach = new MimeBodyPart();
+	                FileDataSource source = new FileDataSource(bid.part.attachment);
+	                attach.setDataHandler(new DataHandler(source));
+	                attach.setFileName(source.getName());
+	                attach.setDisposition(Part.ATTACHMENT);
+	                mp.addBodyPart(attach);
+	                
+	                bodyContent = "<h2>A Bid has been placed using the Asset Manager:</h2>"
 		                + bid.part.toString()
 		                + "<p>Amount: $" + bid.value + "</p>"
 		                + "<p>Comment: " + bid.comment + "</p>"
-		                + "<p>See attached for more information</p>";
-		                
-		                // "<h2>A Part has been added to the Asset Manager:</h2>"
-                  //                  + part.toString()
-                  //                  + "<br />"
-                  //                  + "See attached File for details...";
+		                + "<p>See attached File for details...</p>";
                 } else {
-                        bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
-                                    + part.toString();
+                        bodyContent = "<h2>A Bid has been placed using the Asset Manager:</h2>"
+		                + bid.part.toString()
+		                + "<p>Amount: $" + bid.value + "</p>"
+		                + "<p>Comment: " + bid.comment + "</p>";
                 }
-
                 htmlPart.setContent(bodyContent, "text/html");
                 mp.addBodyPart(htmlPart);
-                    message.setContent(mp);
+                message.setContent(mp);
                     
-                                // set the message content here
                 Transport t = session.getTransport("smtps");
                 try {
                 	t.connect(host, uname, password);
