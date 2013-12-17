@@ -54,23 +54,55 @@ public class Bids extends Controller {
 
             try {
                 String host = "smtp.gmail.com";
-                String uname = "MedTechAM@gmail.com";
+                String username = "MedTechAM@gmail.com";
                 String password = "Somethinggreat7";
-                InternetAddress[] addresses = {new InternetAddress("f.pecora@p3systemsinc.com"),
-               		 new InternetAddress(bid.email)};
+                InternetAddress[] addresses = {
+                                new InternetAddress("f.pecora@p3systemsinc.com"),
+                                new InternetAddress(bid.email)
+                                new InternetAddress("dgeorge@p3systemsinc.com")
+                };
                 Properties props = new Properties();
-                
-                // set any needed mail.smtps.* properties here
+
+                // set any needed mail.smtps.* properties here                
                 Session session = Session.getInstance(props);
+                Multipart mp = new MimeMultipart();
                 MimeMessage message = new MimeMessage(session);
-	            message.setSubject("Bid Added: " + bid.part.vendor + " - " + bid.part.label);
-	            message.setContent("A Bid has been placed using the Asset Manager:\n\n"
-		                + bid.part.toString()
-		                + "\n\nAmount: $" + bid.value
-		                + "\nComment: " + bid.comment, "text/plain");
-	            message.setRecipients(Message.RecipientType.TO, addresses);
+                    message.setSubject("Bid Added: " + bid.part.vendor + " - " + bid.part.label);
+                    message.setRecipients(Message.RecipientType.TO, addresses);
+                    
+                // create the body of the email                
+                MimeBodyPart htmlPart = new MimeBodyPart();
+                String bodyContent = "";
                 
-                // set the message content here
+                // create the attachment of the email                
+                if(bid.part.attachment != null) {
+                        MimeBodyPart attach = new MimeBodyPart();
+                        FileDataSource source = new FileDataSource(part.attachment);
+                        attach.setDataHandler(new DataHandler(source));
+                        attach.setFileName(source.getName());
+                        attach.setDisposition(Part.ATTACHMENT);
+                        mp.addBodyPart(attach);
+                        
+                        bodyContent = "A Bid has been placed using the Asset Manager:\n\n"
+		                + bid.part.toString()
+		                + "<p>Amount: $" + bid.value + "</p>"
+		                + "<p>Comment: " + bid.comment + "</p>"
+		                + "<p>See attached for more information</p>";
+		                
+		                // "<h2>A Part has been added to the Asset Manager:</h2>"
+                  //                  + part.toString()
+                  //                  + "<br />"
+                  //                  + "See attached File for details...";
+                } else {
+                        bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
+                                    + part.toString();
+                }
+
+                htmlPart.setContent(bodyContent, "text/html");
+                mp.addBodyPart(htmlPart);
+                    message.setContent(mp);
+                    
+                                // set the message content here
                 Transport t = session.getTransport("smtps");
                 try {
                 	t.connect(host, uname, password);
@@ -78,10 +110,10 @@ public class Bids extends Controller {
                 } finally {
                 	t.close();
                 }  	
-			}
+	    }
             catch (MessagingException me) {
-				me.printStackTrace();
-			}
+		me.printStackTrace();
+	    }
             user.bids.add(bid);
 
             if(!("admin").equals(username)) {
