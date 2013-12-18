@@ -74,9 +74,9 @@ public class Parts extends Controller {
                 String username = "MedTechAM@gmail.com";
                 String password = "Somethinggreat7";
                 InternetAddress[] addresses = {
-                		new InternetAddress("f.pecora@p3systemsinc.com"),
+//                		new InternetAddress("f.pecora@p3systemsinc.com"),
                 		new InternetAddress(part.email)
-                		new InternetAddress("dgeorge@p3systemsinc.com")
+//                		new InternetAddress("dgeorge@p3systemsinc.com")
                 };
                 Properties props = new Properties();
 

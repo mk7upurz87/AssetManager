@@ -2,12 +2,17 @@ package controllers;
 
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -54,12 +59,12 @@ public class Bids extends Controller {
 
             try {
                 String host = "smtp.gmail.com";
-                String username = "MedTechAM@gmail.com";
+                String appEmail = "MedTechAM@gmail.com";
                 String password = "Somethinggreat7";
                 InternetAddress[] addresses = {
-                                new InternetAddress("f.pecora@p3systemsinc.com"),
+//                                new InternetAddress("f.pecora@p3systemsinc.com"),
                                 new InternetAddress(bid.email)
-                                new InternetAddress("dgeorge@p3systemsinc.com")
+//                                new InternetAddress("dgeorge@p3systemsinc.com")
                 };
                 Properties props = new Properties();
 
@@ -80,7 +85,7 @@ public class Bids extends Controller {
 	                FileDataSource source = new FileDataSource(bid.part.attachment);
 	                attach.setDataHandler(new DataHandler(source));
 	                attach.setFileName(source.getName());
-	                attach.setDisposition(Part.ATTACHMENT);
+	                attach.setDisposition(javax.mail.Part.ATTACHMENT);
 	                mp.addBodyPart(attach);
 	                
 	                bodyContent = "<h2>A Bid has been placed using the Asset Manager:</h2>"
@@ -89,7 +94,7 @@ public class Bids extends Controller {
 		                + "<p>Comment: " + bid.comment + "</p>"
 		                + "<p>See attached File for details...</p>";
                 } else {
-                        bodyContent = "<h2>A Bid has been placed using the Asset Manager:</h2>"
+                    bodyContent = "<h2>A Bid has been placed using the Asset Manager:</h2>"
 		                + bid.part.toString()
 		                + "<p>Amount: $" + bid.value + "</p>"
 		                + "<p>Comment: " + bid.comment + "</p>";
@@ -100,14 +105,14 @@ public class Bids extends Controller {
                     
                 Transport t = session.getTransport("smtps");
                 try {
-                	t.connect(host, uname, password);
+                	t.connect(host, appEmail, password);
                 	t.sendMessage(message, message.getAllRecipients());
                 } finally {
                 	t.close();
                 }  	
 	    }
-            catch (MessagingException me) {
-		me.printStackTrace();
+        catch (MessagingException me) {
+        	me.printStackTrace();
 	    }
             user.bids.add(bid);
 
@@ -119,8 +124,6 @@ public class Bids extends Controller {
     }
 
     public static Result acceptBid(Long id) {
-        //TODO send an email out to the bidder
-        Bid.delete(id);
         return redirect(routes.Bids.index());
     }
 
