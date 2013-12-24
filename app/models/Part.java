@@ -21,7 +21,7 @@ public class Part extends Model {
 	private static final long serialVersionUID = 7739003293639778488L;
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long id;
 
     @Required(message="You must enter your name for the record")

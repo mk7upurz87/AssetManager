@@ -40,7 +40,7 @@
                     <td>Description</td>
                     <td>Attachment</td>
                     @if(("admin").equals(session().get("username"))) {
-                    <td class="delete">Delete</td>
+                        <td class="delete">Delete</td>
                     }
                 </tr>
             </thead>
@@ -66,7 +66,7 @@
                     <td class="description">@part.description</td>
                     <td class="attachment">
                         @if(part.attachmentName != null) {
-                            <a href="@routes.Assets.at("attachments/" + part.attachmentName)" target="_blank">
+                            <a href="@routes.Assets.at("assets/" + part.attachmentName)" target="_blank">
                            		<div class="desc-icon"></div>
                             </a>
                         }
@@ -100,7 +100,7 @@
                 @inputText(partForm("vendor"), args = '_label -> "Vendor Name:", '_showConstraints -> true, 'placeholder -> "aka: Manufacturer") 
                 @inputText(partForm("quantity"), args = '_label -> "Quantity: ", '_showConstraints -> true, 'placeholder -> "Number available")
 				@textarea(partForm("description"), '_label -> "Part Description:", '_showConstraints -> true, 'placeholder -> "Specify information about the condition, location or available options...", 'rows -> 3, 'cols -> 50)
-                @inputFile(partForm("attachment"), args = '_label -> "Attach File:", '_showConstraints -> true)
+                @inputFile(partForm("attachment"), args = '_label -> "Attach File: (maximum size = 25MB)", '_showConstraints -> true)
                 
                 <button class="pure-button-error add-part" type="submit" value="add part">Add Part</button>
             }

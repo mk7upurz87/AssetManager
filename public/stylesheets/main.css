@@ -102,6 +102,9 @@ h1.center {
 .user-create-form .help-block {
 	display: none;
 }
+.new-part-form .help-inline {
+	margin-left: 5px;
+}
 .bid-amount {
 	position: relative;
 	margin: 20px 0;
@@ -139,10 +142,19 @@ h1.center {
 }
 .parts-list .attachment .desc-icon {
 	vertical-align: middle;
-	text-align: center;
-	height: 26px;
-	width: 22px;
+	height: 22px;
+	width: 26px;
+	margin: 0 auto;
 	background: url("../img/glyphicons/png/glyphicons_151_new_window.png");
+}
+.part-info-section .part-attachment .desc-icon {
+	vertical-align: middle;
+	height: 22px;
+	width: 26px;
+	background: url("../img/glyphicons/png/glyphicons_151_new_window.png");
+}
+.part-info-section .part-attachment .desc-icon a {
+	margin-left: 30px;
 }
 .part-detail-error {
 	background: #ffcccc;
@@ -171,7 +183,13 @@ h1.center {
 	float: left;
 }
 #description {
-	width: 350px;
+	width: 375px;
+}
+#attachment {
+	width: 375px;
+}
+#attachment_field {
+	padding-top: 10px;
 }
 .no-parts-msg, .no-bids-msg {
 	font-weight: 700;

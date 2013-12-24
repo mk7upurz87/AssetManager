@@ -4,7 +4,7 @@
 # --- !Ups
 
 create table BID (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   value                     integer,
   email                     varchar(255),
   user_id                   bigint,
@@ -15,7 +15,7 @@ create table BID (
 ;
 
 create table PART (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   creator                   varchar(255),
   division                  varchar(255),
   email                     varchar(255),
@@ -30,7 +30,7 @@ create table PART (
 ;
 
 create table USER (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   password                  varchar(255),
   username                  varchar(255),
   name                      varchar(255),
@@ -38,12 +38,6 @@ create table USER (
   constraint uq_USER_1 unique (ID,USERNAME),
   constraint pk_USER primary key (id))
 ;
-
-create sequence BID_seq;
-
-create sequence PART_seq;
-
-create sequence USER_seq;
 
 alter table BID add constraint fk_BID_user_1 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 create index ix_BID_user_1 on BID (user_id);
@@ -63,10 +57,4 @@ drop table if exists PART;
 drop table if exists USER;
 
 SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists BID_seq;
-
-drop sequence if exists PART_seq;
-
-drop sequence if exists USER_seq;
 

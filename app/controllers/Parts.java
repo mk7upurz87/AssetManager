@@ -27,7 +27,7 @@ public class Parts extends Controller {
         return ok(views.html.parts_index.render(models.Part.all(), partForm));
     }
 
-	public static Result newPart() {
+    public static Result newPart() {
         Form<models.Part> filledForm = partForm.bindFromRequest();
         MultipartFormData body = request().body().asMultipartFormData();
         FilePart attachment = body.getFile("attachment");
@@ -40,21 +40,20 @@ public class Parts extends Controller {
             fileName = attachment.getFilename().replace(" ", "_");
             
             if (fileName.matches("[_a-zA-Z0-9\\-\\.]+")) {
-	            file = attachment.getFile();
-	            
-	            try {
-            	    String applicationRoot = Play.application().path().getPath();
-        	    	newFilePath = applicationRoot + "\\public\\attachments\\" + fileName;
-        	    	File newFile = new File(newFilePath);
-    	        	Files.move(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-    	        	file = newFile;
-	            }
-	            catch(FileNotFoundException fnfe) {
-	            	System.err.println("File: " + file.getName() + " \n" + fnfe.getStackTrace());
-	            }	            
-	            catch(IOException ioe) {
-	                System.err.println(ioe.getStackTrace());
-	            }
+                file = attachment.getFile();
+
+                if(file.length() < 1024 * 1024 * 25) {
+                    String applicationRoot = System.getProperty("user.dir");
+                    newFilePath = applicationRoot + "/public/assets/";
+                    File newFile = new File(newFilePath, fileName);
+                    file.renameTo(newFile);
+                    file = newFile;
+                } else {
+                    filledForm.error("file size is too large.");
+                    return badRequest(
+                        views.html.parts_index.render(models.Part.all(), filledForm)
+                    );
+                }
             }
         }
         if(filledForm.hasErrors()) {
@@ -65,18 +64,18 @@ public class Parts extends Controller {
             models.Part part = filledForm.get();
             
             if(newFilePath != null) {
-            	part.attachment = file;
-            	part.attachmentName = file.getName();
-            	part.save();
+                part.attachment = file;
+                part.attachmentName = file.getName();
+                part.save();
             }
             try {
                 String host = "smtp.gmail.com";
                 String username = "MedTechAM@gmail.com";
                 String password = "Somethinggreat7";
                 InternetAddress[] addresses = {
-//                		new InternetAddress("f.pecora@p3systemsinc.com"),
-                		new InternetAddress(part.email)
-//                		new InternetAddress("dgeorge@p3systemsinc.com")
+                    new InternetAddress("f.pecora@p3systemsinc.com"),
+                    new InternetAddress(part.email),
+                    new InternetAddress("dgeorge@p3systemsinc.com")
                 };
                 Properties props = new Properties();
 
@@ -84,46 +83,46 @@ public class Parts extends Controller {
                 Session session = Session.getInstance(props);
                 Multipart mp = new MimeMultipart();
                 MimeMessage message = new MimeMessage(session);
-	            message.setSubject("Part Added: " + part.vendor + " - " + part.label);
-	            message.setRecipients(Message.RecipientType.TO, addresses);
-	            
+                message.setSubject("Part Added: " + part.vendor + " - " + part.label);
+                message.setRecipients(Message.RecipientType.TO, addresses);
+                
                 // create the body of the email                
                 MimeBodyPart htmlPart = new MimeBodyPart();
                 String bodyContent = "";
                 
                 // create the attachment of the email                
                 if(part.attachment != null) {
-	                MimeBodyPart attach = new MimeBodyPart();
-	                FileDataSource source = new FileDataSource(part.attachment);
-	                attach.setDataHandler(new DataHandler(source));
-	                attach.setFileName(source.getName());
-	                attach.setDisposition(Part.ATTACHMENT);
-	                mp.addBodyPart(attach);
-	                
-	                bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
-    		                + part.toString()
-    		                + "<br />"
-    		                + "See attached File for details...";
+                    MimeBodyPart attach = new MimeBodyPart();
+                    FileDataSource source = new FileDataSource(part.attachment);
+                    attach.setDataHandler(new DataHandler(source));
+                    attach.setFileName(source.getName());
+                    attach.setDisposition(Part.ATTACHMENT);
+                    mp.addBodyPart(attach);
+                    
+                    bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
+                            + part.toString()
+                            + "<br />"
+                            + "See attached File for details...";
                 } else {
-                	bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
-    		                + part.toString();
+                    bodyContent = "<h2>A Part has been added to the Asset Manager:</h2>"
+                            + part.toString();
                 }
 
                 htmlPart.setContent(bodyContent, "text/html");
                 mp.addBodyPart(htmlPart);
-            	message.setContent(mp);
-	            
+                message.setContent(mp);
+                
                 Transport t = session.getTransport("smtps");
                 try {
-                	t.connect(host, username, password);
-                	t.sendMessage(message, message.getAllRecipients());
+                    t.connect(host, username, password);
+                    t.sendMessage(message, message.getAllRecipients());
                 } finally {
-                	t.close();
-                }  	
-			}
+                    t.close();
+                }   
+            }
             catch (MessagingException me) {
-				me.printStackTrace();
-			}
+                me.printStackTrace();
+            }
             
             models.Part.create(part);
             return redirect(routes.Parts.index());
